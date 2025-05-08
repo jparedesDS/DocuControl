@@ -1,0 +1,12 @@
+pandas
+xlsxwriter
+jpype1
+aspose-cells
+openpyxl
+numpy
+sqlalchemy
+pywin32
+beautifulsoup4
+Pillow==9.5.0
+tqdm
+
