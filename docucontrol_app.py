@@ -60,7 +60,7 @@ def show_progress_and_run(target_func):
     def animate_messages(index=0):
         if index < len(phrases):
             message_var.set(phrases[index])
-            progress_win.after(2000, animate_messages, index + 1)  # 1000ms entre frases
+            progress_win.after(5000, animate_messages, index + 1)  # 1000ms entre frases
         else:
             message_var.set("Finalizando...")
 
@@ -94,8 +94,9 @@ def run_script_and_copy_excel(script_path, generated_file, popup=None):
             if not os.path.exists(generated_file_path):
                 messagebox.showerror("Error", f"No se encontró el archivo generado: '{generated_file}'.")
                 return
-            shutil.copy(generated_file_path, os.path.join(destination_folder, generated_file))
-            messagebox.showinfo("Éxito", f"'{generated_file}' se copió a:\n{destination_folder}")
+            dest_path = os.path.join(destination_folder, generated_file)
+            shutil.copy(generated_file_path, dest_path)
+            os.startfile(dest_path)  # Esto abre el Excel directamente
         else:
             messagebox.showwarning("Cancelado", "No se seleccionó ninguna carpeta para copiar el archivo.")
 

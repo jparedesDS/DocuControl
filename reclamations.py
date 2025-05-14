@@ -16,7 +16,7 @@ ruta_excel = "C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\M
 df = pd.read_excel(ruta_excel, sheet_name='ENVIADOS')
 
 # Filtrar filas con 15 o más días
-df_filtrado = df[df['Días Devolución'] >= 15]
+df_filtrado = df[df['Días Devolución'] >= 5]
 
 # Limpiar nombre de hoja
 def limpiar_nombre(nombre):
@@ -71,18 +71,20 @@ for pedido, grupo in df_filtrado.groupby('Nº Pedido'):
             # Colorear el texto de 'Días Devolución' con rojo y negrita
             if col_idx == columna_dias:
                 try:
-                    # Convertimos el valor a float para asegurar que sea numérico
                     if float(valor) >= 15:
                         celda_nueva.font = rojo_negrita_font
                 except ValueError:
-                    pass  # Si no se puede convertir a float, no aplicamos color
+                    pass
 
             # Ajustar el ancho máximo de la columna
             anchos_columnas[col_idx] = max(anchos_columnas[col_idx], len(str(valor)))
 
-    # Ajustar el ancho de las columnas según el valor máximo
+    # Añadir autofiltro a la primera fila
+    ws_nueva.auto_filter.ref = ws_nueva.dimensions
+
+    # Ajustar el ancho de las columnas
     for col_idx, ancho in anchos_columnas.items():
-        ws_nueva.column_dimensions[chr(64 + col_idx)].width = ancho + 3  # Ajustar un poco más
+        ws_nueva.column_dimensions[chr(64 + col_idx)].width = ancho + 3
 
 # Guardar nuevo archivo
 wb_nuevo.save("Reclamaciones_" + str(today_date_str) + ".xlsx")

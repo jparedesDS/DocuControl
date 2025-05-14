@@ -1,5 +1,7 @@
 pandas
 xlsxwriter
+lxml
+html5lib
 jpype1
 aspose-cells
 openpyxl
