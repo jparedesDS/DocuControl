@@ -84,7 +84,7 @@ while message:
                 'PO'] = message.Subject  # Creamos una nueva columna a traves del message.Subject en la que identificaremos el PO del pedido.
         df['PO'] = df['PO'].str.extract(r'(\d{10})', expand=False)
         df['Nº Transmittal'] = df['PO']
-        identificar_cliente_por_PO(df)
+        identificar_cliente_por_PO_MR(df)
         reconocer_tipo_proyecto(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]
@@ -92,6 +92,7 @@ while message:
         df['EMAIL'].pop  # Eliminamos la columna.
         procesar_documento_y_fecha(df, receivedtime)
         cambiar_tipo_estado(df)
+        critico(df)
         # Renombramos las columnas al Castellano
         df.rename(columns={'Vendor Number': 'Doc. EIPSA', 'Vendor Rev': 'Rev.', 'Title': 'Título',
                                'TR Number': 'Doc. Cliente', 'Return Status': 'Estado', 'TR Rev': 'TR Rev.'},

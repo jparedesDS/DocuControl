@@ -71,7 +71,6 @@ while message:
         df['Nº Pedido'] = df['Reference'].str.extract(r'-(\d{2}-\d{3})-', expand=False)
         df['Nº Pedido'] = df['Nº Pedido'].str.replace('-', '/')  # Reemplazamos el guión por '/' para identificarlo igual que nuestro número de pedidos.
         df['Nº Pedido'] = 'P-' + df['Nº Pedido'].astype(str)  # Añadimos al principio de la columna 'P-' para identificarlo igual que nuestro número de pedido.
-        #prodoc_vendor_number(df)
         # Obtenemos el 'TIPO DE DOCUMENTO'.
         df['Tipo de documento'] = df['Reference'].str.extract(r'-(DWG|CAL|VDDL|IND|DOS|ITP|NDE|CER|PH|DD|WD)-', expand=False)  # Creamos una nueva columna en la cual identificamos el Tipo de documento a traves del ['Vendor Number'].
         df['Supp.'] = 'S00'  # Creamos una nueva columna en la cual identificaremos el suplemento a traves del ['Vendor Number'].
@@ -79,7 +78,7 @@ while message:
         reemplazar_null(df)
         df.insert(6, "Crítico", "Sí")  # Creación nuevas columnas ["Critico"] en la 6º posición del df ################## La idea sería a traves del tipo de documento indicar si es critico o no.
         df['PO'] = df['Reference'].str.extract(r'^(\d+[A-Z])', expand=False)
-        identificar_cliente_por_PO(df)
+        identificar_cliente_por_PO_MR(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]
         df2['EMAIL'] = df['EMAIL']  # Creamos un df2 con solo esta columna.

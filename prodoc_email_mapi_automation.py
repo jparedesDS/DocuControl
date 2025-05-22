@@ -79,7 +79,7 @@ while message:
         df.insert(6, "Crítico",
                   "Sí")  # Creación nuevas columnas ["Critico"] en la 6º posición del df ################## La idea sería a traves del tipo de documento indicar si es critico o no.
         df['P.O.'] = df['P.O.'].apply(str)
-        identificar_cliente_por_PO(df)
+        identificar_cliente_por_PO_MR(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]
         df2['EMAIL'] = df['EMAIL']  # Creamos un df2 con solo esta columna.

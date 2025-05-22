@@ -82,7 +82,7 @@ while message:
         ### Reemplaza los valores de la columna "Suplemento", si el valor no se encuentra en el mapeo o es NaN, se reemplaza con 'S00'.
         reemplazar_null(df)
         df.insert(6, "Crítico", "Sí")  # Creación nuevas columnas ["Critico"] en la 6º posición del df ################## La idea sería a traves del tipo de documento indicar si es critico o no.
-        identificar_cliente_por_PO(df)
+        identificar_cliente_por_PO_MR(df)
         print(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]

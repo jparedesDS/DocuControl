@@ -10,6 +10,7 @@ from asposecells.api import Workbook
 from openpyxl.reader.excel import load_workbook
 from tools.mapping_mr import *
 from tools.apply_style_mr import *
+from tools.po_identification import *
 import warnings
 from tqdm import tqdm
 
@@ -53,7 +54,7 @@ df_comentados['Fecha Contractual'] = "Aprobación + " + df_comentados['Fecha Con
 df_comentados.insert(16, "Fecha AP VDDL", df_comentados['Nº Pedido']) # Insertamos la columna 'Fecha AP VDDL'
 process_vddl(df_comentados) # Aplicar el mapping para cambiar el tipo de estado en la columna 'Fecha AP VDDL'
 apply_responsable(df_comentados)
-identificar_cliente_por_PO(df_comentados) # Aplicar el mapping para cambiar el tipo de 'Cliente'
+identificar_cliente_por_PO_MR(df_comentados) # Aplicar el mapping para cambiar el tipo de 'Cliente'
 apply_reclamaciones(df_comentados) # Aplicar el mapping para indicar cuantas reclamaciones lleva el documento.
 # Insertamos la columna 'Días VDDL'
 df_comentados['Fecha AP VDDL'] = pd.to_datetime(df_comentados['Fecha AP VDDL'], format="mixed", dayfirst=True)
@@ -73,7 +74,7 @@ df_envio['Fecha Contractual'] = "Aprobación + " + df_envio['Fecha Contractual']
 df_envio.insert(16, "Fecha AP VDDL", df_envio['Nº Pedido']) # Insertamos la columna 'Fecha AP VDDL'
 process_vddl(df_envio) # Aplicar el mapeo para cambiar el tipo de estado en la columna 'Fecha AP VDDL'
 apply_responsable(df_envio)
-identificar_cliente_por_PO(df_envio) # Aplicar el mapping para cambiar el tipo de 'Cliente'
+identificar_cliente_por_PO_MR(df_envio) # Aplicar el mapping para cambiar el tipo de 'Cliente'
 apply_reclamaciones(df_envio) # Aplicar el mapping para indicar cuantas reclamaciones lleva el documento.
 # Insertamos la columna 'Días VDDL'
 df_envio['Fecha AP VDDL'] = pd.to_datetime(df_envio['Fecha AP VDDL'], format="mixed", dayfirst=True)
@@ -92,7 +93,7 @@ df_sin_envio.insert(15, "Días Devolución", (today_date - df_sin_envio['Fecha P
 df_sin_envio = df_sin_envio.rename(columns={'Fecha Prevista': 'Fecha FIN'})
 df_sin_envio = df_sin_envio.rename(columns={'Fecha Pedido': 'Fecha INICIAL'})
 apply_responsable(df_sin_envio)
-identificar_cliente_por_PO(df_sin_envio) # Aplicar el mapping para cambiar el tipo de 'Cliente'
+identificar_cliente_por_PO_MR(df_sin_envio) # Aplicar el mapping para cambiar el tipo de 'Cliente'
 print(df_sin_envio)
 
 # TRATAMIENTO DEL DATAFRAME "CRÍTICOS" Crítico
@@ -105,7 +106,7 @@ df_criticos.insert(14, "Días Devolución", (today_date - df_criticos['Fecha']).
 df_criticos.insert(15, 'Fecha Contractual', ((df_criticos['Fecha Prevista'] - df_criticos['Fecha Pedido']).dt.days // 7))
 df_criticos['Fecha Contractual'] = "Aprobación + " + df_criticos['Fecha Contractual'].astype(str) + ' Semanas'
 apply_responsable(df_criticos)
-identificar_cliente_por_PO(df_criticos) # Aplicar el mapping para cambiar el tipo de 'Cliente'
+identificar_cliente_por_PO_MR(df_criticos) # Aplicar el mapping para cambiar el tipo de 'Cliente'
 apply_reclamaciones(df_criticos) # Aplicar el mapping para indicar cuantas reclamaciones lleva el documento.
 df_criticos = df_criticos.rename(columns={'Fecha': 'Fecha Doc.'})
 df_criticos = df_criticos.rename(columns={'Fecha Prevista': 'Fecha FIN'})
@@ -151,7 +152,7 @@ df_total['Fecha Contractual'] = "Aprobación + " + df_total['Fecha Contractual']
 df_total.insert(16, "Fecha AP VDDL", df_total['Nº Pedido']) # Insertamos la columna 'Fecha AP VDDL'
 process_vddl(df_total) # Aplicar el mapeo para cambiar el tipo de estado en la columna 'Fecha AP VDDL'
 apply_responsable(df_total)
-identificar_cliente_por_PO(df_total) # Aplicar el mapping para cambiar el tipo de 'Cliente'
+identificar_cliente_por_PO_MR(df_total) # Aplicar el mapping para cambiar el tipo de 'Cliente'
 apply_reclamaciones(df_total) # Aplicar el mapping para indicar cuantas reclamaciones lleva el documento.
 # Insertamos la columna 'Días VDDL'
 df_total['Fecha AP VDDL'] = pd.to_datetime(df_total['Fecha AP VDDL'], format="mixed", dayfirst=True)

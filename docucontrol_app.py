@@ -203,15 +203,12 @@ def open_monitoring_popup():
                             relief="raised", bd=4, bg="#007acc", fg="white", cursor="hand2")
     btn_informe.pack(pady=10)
 
-    btn_reclamaciones = tk.Button(popup, text="Reclamaciones",
-                                  command=lambda: show_progress_and_run(
-                                      lambda: run_script_and_copy_excel(
-                                          os.path.join(base_path, "reclamations.py"),
-                                          "Reclamaciones_" + str(today_date_str) + ".xlsx",
-                                          popup)
-                                  ),
+    btn_reclamaciones = tk.Button(popup, text="Reclamaciones (Vía Email)",
+                                  command=lambda: subprocess.run(
+                                      ["python", os.path.join(base_path, "reclamations.py")]),
                                   height=3, width=25, font=("Arial", 11, "bold"),
-                                  relief="raised", bd=4, bg="#e67e22", fg="white", cursor="hand2")
+                                  relief="raised", bd=4, bg="#e67e22", fg="white", cursor="hand2"
+                                  )
     btn_reclamaciones.pack(pady=5)
 
 # --------- Ventana Principal ----------

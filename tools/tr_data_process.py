@@ -71,6 +71,33 @@ def procesar_documento_y_fecha(df, receivedtime):
 
     return df
 
+def critico(df):
+    """
+    Función para cambiar el tipo de estado en un DataFrame.
+
+    Args:
+        df (pandas.DataFrame): DataFrame que contiene la columna 'Return Status'.
+
+    Returns:
+        pandas.DataFrame: DataFrame actualizado con los tipos de estado modificados.
+    """
+
+    # mapping (dict): Diccionario de mapeo para identificar el estado del documento
+    mapping = {'Planos': 'Sí',
+               'Cálculos': 'Sí', 'Cálculos y Planos': 'Sí',
+               'Certificado': 'No',
+               'Dossier': 'No',
+               'Procedimientos': 'No',
+               'Manual': 'Sí',
+               'PPI': 'Sí', 'Nameplate': 'No',
+               'Catalogo': 'Sí', 'Listado': 'Sí',
+               'Repuestos': 'No'}
+
+    # Aplicar el mapeo para cambiar el tipo de estado en la columna 'Return Status'
+    df['Crítico'] = df['Tipo de documento'].map(mapping)
+
+    return df
+
 def cambiar_tipo_estado(df):
     """
     Función para cambiar el tipo de estado en un DataFrame.
@@ -89,9 +116,7 @@ def cambiar_tipo_estado(df):
         'C - REVIEWED WITH MINOR COMMENTS': 'Com. Menores',
         'F - REVIEWED WITHOUT COMMENTS': 'Aprobado',
         'W - ISSUED FOR CERTIFICATION': 'Certificación',
-        'M - VOID': 'Eliminado'
-        # AÑADIR PORTAL PRODOC
-    }
+        'M - VOID': 'Eliminado'}
 
     # Aplicar el mapeo para cambiar el tipo de estado en la columna 'Return Status'
     df['Return Status'] = df['Return Status'].map(mapping)
