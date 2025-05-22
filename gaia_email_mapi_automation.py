@@ -78,7 +78,7 @@ while message:
         reemplazar_null(df)
         df.insert(6, "Crítico", "Sí")  # Creación nuevas columnas ["Critico"] en la 6º posición del df ################## La idea sería a traves del tipo de documento indicar si es critico o no.
         df['PO'] = df['Reference'].str.extract(r'^(\d+[A-Z])', expand=False)
-        identificar_cliente_por_PO_MR(df)
+        identificar_cliente_por_PO(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]
         df2['EMAIL'] = df['EMAIL']  # Creamos un df2 con solo esta columna.
@@ -156,7 +156,7 @@ while message:
         print(subject_email)
         newmail.Attachments.Add(attach)  # Adjuntar el archivo al email.
         newmail.Display()  # Visualización del email.
-        # newmail.Send()    # Envio automático del email.
+        #newmail.Send()    # Envio automático del email.
         # Movemos los archivos a las carpetas correspondientes
         shutil.move(os.path.join(src, f'RESUMEN - ' + subject_email + '.xlsx'),
                     os.path.join(dst, f'RESUMEN - ' + subject_email + '.xlsx'))
