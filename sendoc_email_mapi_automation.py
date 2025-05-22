@@ -7,7 +7,10 @@ import win32com.client
 from bs4 import BeautifulSoup
 from io import StringIO
 from tools.ERPconn import *
+from tools.email_identification import *
+from tools.po_identification import *
 from tools.sendoc_data_process import *
+from tools.apply_style_email import *
 
 
 # Time
@@ -60,31 +63,33 @@ while message:
         html_body = BeautifulSoup(text_html, 'html.parser')  # Captura del texto.
         html_tables = html_body('table')[0]  # Seleccionamos la tabla excel en el cuerpo del email.
         df_list = pd.read_html(StringIO(text_html))  # Captura del email en text_html.
-        df = df_list[0] # Seleccionamos la posición [7] en la que encontramos la información y tabla del email.
-
-        #df = pd.concat([df_2, df], ignore_index=True)
+        df = df_list[0] # Seleccionamos la posición [0] en la que encontramos la información y tabla del email.
+        dff = df_list[1]
+        # Convertimos a formato horizontal:
+        df = df.set_index(df.columns[0]).T
+        dff = dff.set_index(dff.columns[0]).T
+        df.index = [0]
+        dff.index = [0]
+        df = pd.concat([df, dff], axis=1)
         print(df)
-        df = df.loc[:, ['Step', 'Document number', 'System revision', 'Title', 'Project Revision']]  # Reorganizamos las columnas para realizar la importación correcta a BBDD.
-
-        cap_estado = re.findall(r'Code\s\d+', subject_email)
-        df['Estado'] = cap_estado[0] if cap_estado else None
-        df['Nº Pedido'] = df['Reference'].str.extract(r'-(\d{2}-\d{3})-', expand=False)
-        df['Nº Pedido'] = df['Nº Pedido'].str.replace('-', '/')  # Reemplazamos el guión por '/' para identificarlo igual que nuestro número de pedidos.
-        df['Nº Pedido'] = 'P-' + df['Nº Pedido'].astype(str)  # Añadimos al principio de la columna 'P-' para identificarlo igual que nuestro número de pedido.
-        #prodoc_vendor_number(df)
+        df['Nº Pedido'] = df['ProcessFlow']
+        df['Rev.'] = df['Project Revision']
+        print(df)
+        sendoc_vendor_number(df)
         # Obtenemos el 'TIPO DE DOCUMENTO'.
-        df['Tipo de documento'] = df['Reference'].str.extract(r'-(DWG|CAL|VDDL|IND|DOS|ITP|NDE|CER|PH|DD|WD)-', expand=False)  # Creamos una nueva columna en la cual identificamos el Tipo de documento a traves del ['Vendor Number'].
+        df['Tipo de documento'] = df['Title'].str.extract(r'(DRAWINGS|LIST|VDDL|IND|DOS|ITP|NDE|CER|PH|DD|WD)', expand=False)  # Creamos una nueva columna en la cual identificamos el Tipo de documento a traves del ['Vendor Number'].
         df['Supp.'] = 'S00'  # Creamos una nueva columna en la cual identificaremos el suplemento a traves del ['Vendor Number'].
         ### Reemplaza los valores de la columna "Suplemento", si el valor no se encuentra en el mapeo o es NaN, se reemplaza con 'S00'.
         reemplazar_null(df)
         df.insert(6, "Crítico", "Sí")  # Creación nuevas columnas ["Critico"] en la 6º posición del df ################## La idea sería a traves del tipo de documento indicar si es critico o no.
-        df['PO'] = df['Reference'].str.extract(r'^(\d+[A-Z])', expand=False)
         identificar_cliente_por_PO(df)
+        print(df)
         # Generamos una nueva columna llamada ['EMAIL'] con el Tipo de documento, el cual transformaremos para identificar el email de la persona al que va asociado el documento.
         df['EMAIL'] = df['Tipo de documento']  # Damos los datos de tipo de documento a la columna df[EMAIL]
         df2['EMAIL'] = df['EMAIL']  # Creamos un df2 con solo esta columna.
         df['EMAIL'].pop  # Eliminamos la columna.
         procesar_documento_y_fecha(df, receivedtime)
+        print(df)
         cambiar_tipo_estado(df)
         critico(df)
         # Renombramos las columnas al Castellano
@@ -92,6 +97,7 @@ while message:
         df['Doc. Cliente'] = df['Doc. EIPSA']
         reconocer_tipo_proyecto(df)
         df['Nº Transmittal'] = transmittal_code
+        df.to_excel(f'algo1.xlsx', index=False)
         print(df)
 
         # Generamos la conexión con Outlook y se genera el email

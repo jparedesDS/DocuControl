@@ -8,7 +8,11 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from io import StringIO
 from tools.ERPconn import *
+from tools.email_identification import *
+from tools.po_identification import *
 from tools.gaia_data_process import *
+from tools.apply_style_email import *
+
 
 # Time
 date = datetime.now()
@@ -134,6 +138,7 @@ while message:
             df_final['Material'].iloc[0]: [df_import['Nº Pedido'].iloc[0], df_import['Supp.'].iloc[0],
                                            df_import['PO'].iloc[0], df_import['Fecha'].iloc[0]]})
         df_info = aplicar_estilo_info(df_info)
+
         # Unimos HTML al cuerpo del email
         body = df_info + df_body
 

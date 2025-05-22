@@ -8,7 +8,10 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from io import StringIO
 from tools.ERPconn import *
+from tools.email_identification import *
+from tools.po_identification import *
 from tools.prodoc_data_process import *
+from tools.apply_style_email import *
 
 # Time
 date = datetime.now()

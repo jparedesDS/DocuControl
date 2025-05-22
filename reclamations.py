@@ -16,7 +16,7 @@ ruta_excel = "C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\M
 df = pd.read_excel(ruta_excel, sheet_name='ENVIADOS')
 
 # Filtrar filas con 15 o más días
-df_filtrado = df[df['Días Devolución'] >= 5]
+df_filtrado = df[df['Días Devolución'] >= 0]
 
 # Limpiar nombre de hoja
 def limpiar_nombre(nombre):
