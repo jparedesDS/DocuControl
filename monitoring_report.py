@@ -160,6 +160,13 @@ df_total.insert(17, "Días VDDL", (today_date - df_total['Fecha AP VDDL']).dt.da
 df_total = df_total.rename(columns={'Fecha': 'Fecha Doc.'})
 df_total = df_total.rename(columns={'Fecha Prevista': 'Fecha FIN'})
 df_total = df_total.rename(columns={'Fecha Pedido': 'Fecha INICIAL'})
+# Crear la columna 'Días Aprobación' con valores nulos por defecto
+df_total['Días Aprobación'] = None
+# Calcular la diferencia en días solo para los que están 'Aprobado'
+df_total.loc[df_total['Estado'] == 'Aprobado', 'Días Aprobación'] = (
+    (df_total.loc[df_total['Estado'] == 'Aprobado', 'Fecha Doc.'] -
+     df_total.loc[df_total['Estado'] == 'Aprobado', 'Fecha INICIAL']).dt.days
+)
 print(df_total)
 
 # Reorganizamos las columnas

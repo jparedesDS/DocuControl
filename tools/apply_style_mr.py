@@ -98,6 +98,15 @@ def apply_excel_styles(today_date):
                     celda.font = Font(color='545454', bold=True)
                 if celda.value == 100:
                     celda.font = Font(color='FF5B5B', bold=True)
+
+        # Estilo verde y negrita para 'Días Aprobación' en hoja ALL DOC.
+        if sheet.title == 'ALL DOC.':
+            font_verde_negrita = Font(color='404040', bold=True)
+            for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row):
+                cell = row[13]  # Columna N = índice 13 (empezando en 0)
+                if isinstance(cell.value, (int, float)):
+                    cell.font = font_verde_negrita
+
         # Autofiltro de columnas
         sheet.auto_filter.ref = f"A1:{chr(66 + max_col)}{max_row}"
         # Definir el estilo condicional para días de devolución >= 15

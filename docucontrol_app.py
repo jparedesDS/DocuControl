@@ -146,20 +146,20 @@ def open_devoluciones_popup():
     gaia_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\gaia_logo.png")
     plantilla_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\plantilla_devoluciones.png")
 
-    btn_tr = tk.Button(popup, image=tr_img, command=lambda: run_script(os.path.join(script_dir, "tr_email_mapi_automation.py"), popup),
+    btn_tr = tk.Button(popup, image=tr_img, command=lambda: run_script(os.path.join(script_dir, "tr_email_mapi_automation.py")),
                        relief="raised", bd=4, cursor="hand2")
     btn_tr.image = tr_img
 
-    btn_prodoc = tk.Button(popup, image=prodoc_img, command=lambda: run_script(os.path.join(script_dir, "prodoc_email_mapi_automation.py"), popup),
+    btn_prodoc = tk.Button(popup, image=prodoc_img, command=lambda: run_script(os.path.join(script_dir, "prodoc_email_mapi_automation.py")),
                            relief="raised", bd=4, cursor="hand2")
     btn_prodoc.image = prodoc_img
 
-    btn_gaia = tk.Button(popup, image=gaia_img, command=lambda: run_script(os.path.join(script_dir, "gaia_email_mapi_automation.py"), popup),
+    btn_gaia = tk.Button(popup, image=gaia_img, command=lambda: run_script(os.path.join(script_dir, "gaia_email_mapi_automation.py")),
                          relief="raised", bd=4, cursor="hand2")
     btn_gaia.image = gaia_img
 
     btn_plantilla = tk.Button(popup, image=plantilla_img,
-                              command=lambda: open_excel_file("tools/plantilla_devoluciones.xlsm", popup),
+                              command=lambda: open_excel_file("tools/plantilla_devoluciones.xlsm"),
                               relief="raised", bd=4, cursor="hand2")
     btn_plantilla.image = plantilla_img
 
@@ -180,7 +180,7 @@ def open_monitoring_popup():
     popup.title("Monitoring Report")
     popup.configure(bg="#f0f0f0")
 
-    popup.geometry("440x200")
+    popup.geometry("440x260")  # Ampliamos un poco el alto por el nuevo botón
     popup.update_idletasks()
     popup_width = popup.winfo_width()
     popup_height = popup.winfo_height()
@@ -207,9 +207,21 @@ def open_monitoring_popup():
                                   command=lambda: subprocess.run(
                                       ["python", os.path.join(base_path, "reclamations.py")]),
                                   height=3, width=25, font=("Arial", 11, "bold"),
-                                  relief="raised", bd=4, bg="#e67e22", fg="white", cursor="hand2"
-                                  )
+                                  relief="raised", bd=4, bg="#e67e22", fg="white", cursor="hand2")
     btn_reclamaciones.pack(pady=5)
+
+    # NUEVO BOTÓN OVR
+    btn_ovr = tk.Button(popup, text="OVR",
+                        command=lambda: show_progress_and_run(
+                            lambda: run_script_and_copy_excel(
+                                os.path.join(base_path, "ovr_automation.py"),
+                                "OVR_Report_" + str(today_date_str) + ".xlsx",
+                                popup)
+                        ),
+                        height=3, width=25, font=("Arial", 11, "bold"),
+                        relief="raised", bd=4, bg="#9b59b6", fg="white", cursor="hand2")
+    btn_ovr.pack(pady=5)
+
 
 # --------- Ventana Principal ----------
 root = tk.Tk()
