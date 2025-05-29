@@ -32,11 +32,19 @@ df.loc[mask_aprobado, 'Días Aprobación'] = (
 )
 
 # Función para extraer fechas del historial
+# Función para extraer fechas del historial en cualquier formato
 def procesar_historial(historial):
-    fechas = re.findall(r'\d{2}-\d{2}-\d{4}', str(historial))
-    fechas = [datetime.strptime(f, '%d-%m-%Y') for f in fechas]
+    fechas_raw = re.findall(r'\d{2}[/-]\d{2}[/-]\d{4}', str(historial))
+    fechas = []
+    for f in fechas_raw:
+        try:
+            fecha = datetime.strptime(f.replace('/', '-'), '%d-%m-%Y')  # unificamos formato
+            fechas.append(fecha)
+        except ValueError:
+            continue
     fechas.sort()
     return fechas
+
 
 # Procesar columna de historial
 fechas_ordenadas = df['Historial Rev.'].apply(procesar_historial)
