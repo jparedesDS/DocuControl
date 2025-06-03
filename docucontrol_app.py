@@ -145,7 +145,6 @@ def open_devoluciones_popup():
     prodoc_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\prodoc_logo.png")
     gaia_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\gaia_logo.png")
     plantilla_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\plantilla_devoluciones.png")
-
     btn_tr = tk.Button(popup, image=tr_img, command=lambda: run_script(os.path.join(script_dir, "tr_email_mapi_automation.py")),
                        relief="raised", bd=4, cursor="hand2")
     btn_tr.image = tr_img
@@ -246,5 +245,21 @@ btn_devoluciones = tk.Button(root, text="Devoluciones", command=open_devolucione
                              height=3, width=20, font=("Arial", 12, "bold"),
                              relief="raised", bd=5, bg="#4caf50", fg="white", cursor="hand2")
 btn_devoluciones.pack(pady=5)
+
+
+def load_main_logo(filename, size=(45, 45)):
+    img_path = os.path.join(script_dir, filename)
+    image = Image.open(img_path).resize(size, Image.ANTIALIAS)
+    return ImageTk.PhotoImage(image)
+
+# --------- LOGOTIPO EN LA ESQUINA SUPERIOR IZQUIERDA ---------
+main_logo_img = load_main_logo("tools/img/main_logo_img.png")  # Ruta relativa
+root.iconphoto(False, main_logo_img)  # Establece el ícono de la ventana
+
+logo_label = tk.Label(root, image=main_logo_img, bg="#f0f0f0", borderwidth=0)
+logo_label.image = main_logo_img
+logo_label.place(x=10, y=10)
+
+
 
 root.mainloop()
