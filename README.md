@@ -11,7 +11,7 @@
 - ⚙️ **User-Friendly GUI**: Clean buttons, intuitive workflow, and real-time status updates.
 
 ## 🗂️ Project Structure
-
+```
 DocuControl/
 ├── main.py # Launches the main GUI window
 ├── funciones.py # Handles script execution, file copying, and status logic
@@ -20,10 +20,7 @@ DocuControl/
 ├── recursos/
 │ └── icono.ico # Application icon
 └── README.md # This documentation file
-
-perl
-Copiar
-Editar
+```
 
 ## 🧠 Module Overview
 
