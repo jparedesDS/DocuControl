@@ -116,7 +116,7 @@ def cambiar_tipo_estado(df):
         'C - REVIEWED WITH MINOR COMMENTS': 'Com. Menores',
         'F - REVIEWED WITHOUT COMMENTS': 'Aprobado',
         'W - ISSUED FOR CERTIFICATION': 'Certificación',
-        'M - VOID': 'Eliminado'}
+        'M - VOID': 'Eliminado', 'R - REVIEWED AS BUILT': 'Aprobado'}
 
     # Aplicar el mapeo para cambiar el tipo de estado en la columna 'Return Status'
     df['Return Status'] = df['Return Status'].map(mapping)

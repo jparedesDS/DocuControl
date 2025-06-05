@@ -23,18 +23,16 @@ def show_progress_and_run(target_func):
 
     # Tamaño ventana
     win_width, win_height = 400, 150
-    progress_win.geometry(f"{win_width}x{win_height}")
 
-    # Centrar sobre root
-    root.update_idletasks()
-    root_x = root.winfo_x()
-    root_y = root.winfo_y()
-    root_width = root.winfo_width()
-    root_height = root.winfo_height()
+    # Obtener tamaño de la pantalla
+    screen_width = progress_win.winfo_screenwidth()
+    screen_height = progress_win.winfo_screenheight()
 
-    x = root_x + (root_width // 2) - (win_width // 2)
-    y = root_y + (root_height // 2) - (win_height // 2)
-    progress_win.geometry(f"+{x}+{y}")
+    # Calcular coordenadas para centrar
+    x = (screen_width // 2) - (win_width // 2)
+    y = (screen_height // 2) - (win_height // 2)
+
+    progress_win.geometry(f"{win_width}x{win_height}+{x}+{y}")
 
     progress_win.transient(root)
     progress_win.grab_set()
@@ -54,13 +52,13 @@ def show_progress_and_run(target_func):
         "¡Generando columnas...!",
         "¡Estilo, formato y color aplicado!",
         "¡Columnas y celdas ajustadas para una mejor visualización!",
-        "¡Creando los filtros de las columnas!"
+        "¡Creando los filtros de las columnas!",
     ]
 
     def animate_messages(index=0):
         if index < len(phrases):
             message_var.set(phrases[index])
-            progress_win.after(5000, animate_messages, index + 1)  # 1000ms entre frases
+            progress_win.after(5000, animate_messages, index + 1)
         else:
             message_var.set("Finalizando...")
 
@@ -74,10 +72,11 @@ def show_progress_and_run(target_func):
     animate_messages()
 
 
+
 def run_script(script_path, popup=None):
     try:
         subprocess.run(["python", script_path], check=True)
-        messagebox.showinfo("Éxito", f"'{os.path.basename(script_path)}' se ejecutó correctamente.")
+        #messagebox.showinfo("Éxito", f"'{os.path.basename(script_path)}' se ejecutó correctamente.")
         if popup:
             popup.destroy()
     except subprocess.CalledProcessError:
@@ -247,19 +246,21 @@ btn_devoluciones = tk.Button(root, text="Devoluciones", command=open_devolucione
 btn_devoluciones.pack(pady=5)
 
 
-def load_main_logo(filename, size=(45, 45)):
+def load_main_logo(filename, size=(64, 64)):
     img_path = os.path.join(script_dir, filename)
     image = Image.open(img_path).resize(size, Image.ANTIALIAS)
     return ImageTk.PhotoImage(image)
 
-# --------- LOGOTIPO EN LA ESQUINA SUPERIOR IZQUIERDA ---------
-main_logo_img = load_main_logo("tools/img/main_logo_img.png")  # Ruta relativa
-root.iconphoto(False, main_logo_img)  # Establece el ícono de la ventana
 
-logo_label = tk.Label(root, image=main_logo_img, bg="#f0f0f0", borderwidth=0)
-logo_label.image = main_logo_img
+# Establecer ícono para ventana y barra de tareas
+root.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
+
+# Cargar imagenes visuales (.png)
+docu_icon = load_main_logo("tools/img/docucontrol_icon.png")
+img_eipsa_icon = load_main_logo("tools/img/main_logo_img.png")
+
+# Mostrar imagen visual en la esquina superior izquierda
+logo_label = tk.Label(root, image=img_eipsa_icon, bg="#f0f0f0", borderwidth=0)
 logo_label.place(x=10, y=10)
-
-
 
 root.mainloop()
