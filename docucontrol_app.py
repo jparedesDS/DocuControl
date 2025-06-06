@@ -18,6 +18,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 def show_progress_and_run(target_func):
     progress_win = Toplevel(root)
     progress_win.title("Ejecutando...")
+    progress_win.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
     progress_win.configure(bg="#f0f0f0")
     progress_win.resizable(False, False)
 
@@ -45,7 +46,7 @@ def show_progress_and_run(target_func):
     pb.start(10)
 
     message_var = tk.StringVar()
-    label_message = tk.Label(progress_win, textvariable=message_var, bg="#f0f0f0", font=("Arial", 10, "italic"))
+    label_message = tk.Label(progress_win, textvariable=message_var, bg="#f0f0f0", font=("Arial", 9, "italic"))
     label_message.pack(pady=5)
 
     phrases = [
@@ -123,6 +124,7 @@ def open_excel_file(filepath, popup=None):
 def open_devoluciones_popup():
     popup = Toplevel(root)
     popup.title("Devoluciones")
+    popup.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
     popup.configure(bg="#f0f0f0")
 
     popup.geometry("520x200")  # aumentamos el ancho para dar espacio al cuarto botón
@@ -176,6 +178,7 @@ def open_devoluciones_popup():
 def open_monitoring_popup():
     popup = Toplevel(root)
     popup.title("Monitoring Report")
+    popup.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
     popup.configure(bg="#f0f0f0")
 
     popup.geometry("440x260")  # Ampliamos un poco el alto por el nuevo botón
