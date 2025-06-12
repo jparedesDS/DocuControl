@@ -8,7 +8,7 @@ start_time = time.time()
 today_date = datetime.today()
 today_date_str = today_date.strftime('%d-%m-%Y')
 
-# Cargar el archivo Excel
+# Cargar el archivo Excel principal
 df = pd.read_excel("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\data_import\\data_erp.xlsx")
 df = df[df['Estado'] != 'Eliminado']
 df['Estado'] = df['Estado'].fillna('Sin Enviar')
@@ -32,19 +32,17 @@ df.loc[mask_aprobado, 'Días Aprobación'] = (
 )
 
 # Función para extraer fechas del historial
-# Función para extraer fechas del historial en cualquier formato
 def procesar_historial(historial):
     fechas_raw = re.findall(r'\d{2}[/-]\d{2}[/-]\d{4}', str(historial))
     fechas = []
     for f in fechas_raw:
         try:
-            fecha = datetime.strptime(f.replace('/', '-'), '%d-%m-%Y')  # unificamos formato
+            fecha = datetime.strptime(f.replace('/', '-'), '%d-%m-%Y')
             fechas.append(fecha)
         except ValueError:
             continue
     fechas.sort()
     return fechas
-
 
 # Procesar columna de historial
 fechas_ordenadas = df['Historial Rev.'].apply(procesar_historial)
@@ -78,5 +76,32 @@ df_ovr = df_final.reindex(columns=[
 df_ovr['Tipo Doc.'] = df_ovr['Tipo Doc.'].str.strip()
 df_ovr = df_ovr.drop(columns=['Seguimiento', 'Resp.', 'Reclamaciones', 'Cliente', 'Material', 'Crítico'])
 
-# Guardar
-aplicar_estilos_y_guardar_excel(df_ovr, f'OVR_Report_{today_date_str}.xlsx')
+# --- UNIÓN CON DATA_TAGS ---
+
+# Cargar data_tags
+df_tags = pd.read_excel("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\data_import\\data_tags.xlsx")
+
+# Crear columna unificada para las dos columnas de data_tags
+df_tags_melted = df_tags.melt(
+    id_vars=[col for col in df_tags.columns if col not in ['Nº Doc. EIPSA Cálculo', 'Nº Doc. EIPSA Plano']],
+    value_vars=['Nº Doc. EIPSA Cálculo', 'Nº Doc. EIPSA Plano'],
+    var_name='Tipo Nº Doc.',
+    value_name='Nº Doc. EIPSA Tag'
+)
+
+# Filtrar nulos
+df_tags_melted = df_tags_melted[df_tags_melted['Nº Doc. EIPSA Tag'].notna()]
+
+# Merge 1: por 'Nº Doc. EIPSA'
+merge_eipsa = df_ovr.merge(df_tags_melted, left_on='Nº Doc. EIPSA', right_on='Nº Doc. EIPSA Tag', how='left')
+
+# Merge 2: por 'Nº Doc. Cliente'
+merge_cliente = df_ovr.merge(df_tags_melted, left_on='Nº Doc. Cliente', right_on='Nº Doc. EIPSA Tag', how='left')
+
+# Unir ambos merges y eliminar duplicados
+df_union = pd.concat([merge_eipsa, merge_cliente], ignore_index=True)
+df_union = df_union.drop_duplicates(subset=['Nº Doc. EIPSA', 'Nº Doc. Cliente'])
+
+
+# Guardar resultado final
+aplicar_estilos_y_guardar_excel(df_union, f'OVR_Report_Union_{today_date_str}.xlsx')

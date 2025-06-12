@@ -16,7 +16,7 @@ ruta_excel = f"C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\
 df = pd.read_excel(ruta_excel, sheet_name='ENVIADOS')
 
 # Filtrar reclamaciones con más de 0 días
-df_filtrado = df[df['Días Devolución'] >= 10]
+df_filtrado = df[df['Días Devolución'] >= 0]
 
 # Eliminar columnas no deseadas
 columnas_a_eliminar = ['Resp.', 'Cliente', 'Material', 'Tipo Doc.', 'Crítico',
