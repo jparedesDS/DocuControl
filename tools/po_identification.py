@@ -50,7 +50,8 @@ def identificar_cliente_por_PO(df):
                '10651': 'ARAMCO/RIYAS', '45124': 'ADNOC/YOKOGAWA',
                'O-23/': 'SINES/YOKOGAWA', 'O-24/': 'SENER/GATE',
                'GAT22': 'SENER/GATE', '45126': 'ADNOC/YOKOGAWA',
-               'POPRI': 'REPSOL', '06000': 'CEPSA'}
+               'POPRI': 'REPSOL', '06000': 'CEPSA', '5040-': 'MEGAZ',
+               'PO 45': 'SULZER', '19128':'MOEVE'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'
@@ -107,7 +108,8 @@ def identificar_cliente_por_PO_MR(df):
                '10651': 'ARAMCO/RIYAS', '45124': 'YOKOGAWA/ADNOC',
                'O-23/': 'SINES/YOKOGAWA', 'O-24/': 'SENER/GATE',
                'GAT22': 'SENER/GATE', '45126': 'ADNOC/YOKOGAWA',
-               '46000':'JIGPC', 'POPRI': 'REPSOL', '06000': 'CEPSA'}
+               '46000':'JIGPC', 'POPRI': 'REPSOL', '06000': 'CEPSA', '5040-': 'MEGAZ',
+               'PO 45': 'SULZER'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     df['Cliente'] = df['Nº PO'].apply(str)
@@ -165,7 +167,8 @@ def identificar_cliente_por_PO_PRODOC(df):
                '10651': 'ARAMCO/RIYAS', '45124': 'ADNOC/YOKOGAWA',
                'O-23/': 'SINES/YOKOGAWA', 'O-24/': 'SENER/GATE',
                'GAT22': 'SENER/GATE', '45126': 'ADNOC/YOKOGAWA',
-               'POPRI': 'REPSOL', '06000': 'CEPSA'}
+               'POPRI': 'REPSOL', '06000': 'CEPSA','5040-': 'MEGAZ',
+               'PO 45': 'SULZER'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'
