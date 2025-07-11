@@ -79,35 +79,10 @@ df_ovr = df_final.reindex(columns=[
     'Nº Doc. EIPSA', 'Título', 'Tipo Doc.', 'Crítico', 'Estado', 'Nº Revisión',
     'Fecha INICIAL', 'Fecha FIN', 'Fecha Doc.', 'Días Aprobación',
     'Reclamaciones', 'Seguimiento', 'Env. 0', 'Dev. 0', 'Env. 1', 'Dev. 1', 'Env. 2', 'Dev. 2',
-    'Env. 3', 'Dev. 3', 'Env. 4', 'Dev. 4', 'Env. 5', 'Dev. 5', 'Env. 6', 'Dev. 6', 'Env. 7', 'Dev. 7', 'Env. 8', 'Dev. 8', 'Env. 9', 'Dev. 9', 'Historial Rev.',])
+    'Env. 3', 'Dev. 3', 'Env. 4', 'Dev. 4', 'Env. 5', 'Dev. 5', 'Env. 6', 'Dev. 6', 'Env. 7', 'Dev. 7', 'Env. 8', 'Dev. 8', 'Historial Rev.',
+])
 df_ovr['Tipo Doc.'] = df_ovr['Tipo Doc.'].str.strip()
 df_ovr = df_ovr.drop(columns=['Seguimiento', 'Resp.', 'Reclamaciones', 'Seguimiento', 'Cliente', 'Material', 'Crítico'])
 
-# --- UNIÓN CON DATA_TAGS ---
-# Cargar data_tags
-df_tags = pd.read_excel("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\data_import\\data_tags.xlsx")
-
-# Crear columna unificada para las dos columnas de data_tags
-df_tags_melted = df_tags.melt(
-    id_vars=[col for col in df_tags.columns if col not in ['Nº Doc. EIPSA Cálculo', 'Nº Doc. EIPSA Plano']],
-    value_vars=['Nº Doc. EIPSA Cálculo', 'Nº Doc. EIPSA Plano'],
-    var_name='Tipo Nº Doc.',
-    value_name='Nº Doc. EIPSA Tag'
-)
-
-# Filtrar nulos
-df_tags_melted = df_tags_melted[df_tags_melted['Nº Doc. EIPSA Tag'].notna()]
-
-# Merge 1: por 'Nº Doc. EIPSA'
-merge_eipsa = df_ovr.merge(df_tags_melted, left_on='Nº Doc. EIPSA', right_on='Nº Doc. EIPSA Tag', how='left')
-
-# Merge 2: por 'Nº Doc. Cliente'
-merge_cliente = df_ovr.merge(df_tags_melted, left_on='Nº Doc. Cliente', right_on='Nº Doc. EIPSA Tag', how='left')
-
-# Unir ambos merges y eliminar duplicados
-df_union = pd.concat([merge_eipsa, merge_cliente], ignore_index=True)
-df_union = df_union.drop_duplicates(subset=['Nº Doc. EIPSA', 'Nº Doc. Cliente'])
-
-
 # Guardar resultado final
-aplicar_estilos_y_guardar_excel(df_union, f'OVR_Report_Union_{today_date_str}.xlsx')
+aplicar_estilos_y_guardar_excel(df_ovr, f'OVR_Simple_{today_date_str}.xlsx')
