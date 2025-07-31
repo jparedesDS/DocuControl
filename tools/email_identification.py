@@ -124,7 +124,9 @@ def get_responsable_email(numero_pedido):
                      'P-25/020': email_AC, 'P-25/021': email_AC, 'P-25/022': email_AC, 'P-25/023': email_SS,
                      'P-25/024': email_SS, 'P-25/025': email_AC, 'P-25/026': email_LB, 'P-25/027': email_LB,
                      'P-25/028': email_LB, 'P-25/029': email_AC, 'P-25/030': email_SS, 'P-25/031': email_SS,
-                     'P-25/032': email_AC, 'P-25/033': email_AC, 'P-25/034': email_CC, 'P-25/035': email_AC, }
+                     'P-25/032': email_AC, 'P-25/033': email_AC, 'P-25/034': email_CC, 'P-25/035': email_AC,
+                     'P-25/036': email_AC, 'P-25/037': email_AC, 'P-25/038': email_AC, 'P-25/039': email_AC,
+                     'P-25/040': email_SS, 'P-25/041': email_AC, 'P-25/042': email_CC, 'P-25/043': email_AC, }
 
     for key in email_mapping:
         if key in numero_pedido:

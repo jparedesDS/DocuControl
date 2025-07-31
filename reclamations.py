@@ -101,7 +101,7 @@ for prefijo, grupo in df_filtrado.groupby("Prefijo Pedido"):
     mail.Save()
     time.sleep(2)
 
-    # Sanear nombre del archivo
+"""    # Sanear nombre del archivo
     prefijo_limpio = re.sub(r'[\\/*?:"<>|]', "-", str(prefijo))
     nombre_base = f"Reclamacion_Pedido_{prefijo_limpio}"
     nombre_archivo = f"{nombre_base}.msg"
@@ -120,4 +120,4 @@ for prefijo, grupo in df_filtrado.groupby("Prefijo Pedido"):
         mail.SaveAs(ruta_completa)
         print(f"Guardado correctamente en: {ruta_completa}")
     except Exception as e:
-        print(f"❌ Error al guardar el correo: {e}")
+        print(f"❌ Error al guardar el correo: {e}")"""

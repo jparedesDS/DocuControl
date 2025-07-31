@@ -17,7 +17,8 @@ from tools.apply_style_email import *
 date = datetime.now()
 dia = date.strftime('%d-%m-%Y')
 fecha_actual = pd.Timestamp.now()
-# Generamos las carpetas correspondientes para guardar los archivos
+# Generamos las carpetas correspondientes para guardar los archivosTECNICAS REUNIDAS
+# f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\'
 nombre_carpeta = os.path.join(f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\' +dia)
 if not os.path.isdir(nombre_carpeta):
     print(f'No existe la ruta: '+nombre_carpeta+', se crea la carpeta')
@@ -83,6 +84,7 @@ while message:
         df[
                 'PO'] = message.Subject  # Creamos una nueva columna a traves del message.Subject en la que identificaremos el PO del pedido.
         df['PO'] = df['PO'].str.extract(r'(\d{10})', expand=False)
+        print(df['PO'])
         df['Nº Transmittal'] = df['PO']
         identificar_cliente_por_PO(df)
         reconocer_tipo_proyecto(df)
