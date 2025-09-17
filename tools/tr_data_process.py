@@ -29,10 +29,11 @@ def reconocer_tipo_proyecto(df):
     """
     # mapping (dict): Diccionario de mapeo para identificar el tipo de proyecto.
     mapping = {'411': 'TEMPERATURA', '412': 'TEMPERATURA',
-               '610': 'BIMETÁLICOS', '640': 'TEMPERATURA',
-               '710': 'NIVEL VIDRIO', '740': 'TUBERÍAS',
-               '910': 'CAUDAL', '911': 'SALTOS MULTIPLES',
-               '920': 'ORIFICIOS'}
+               '610': 'BIMETÁLICOS', '620': 'TEMPERATURA',
+               '640': 'TEMPERATURA', '710': 'NIVEL VIDRIO',
+               '740': 'TUBERÍAS', '910': 'CAUDAL',
+               '911': 'SALTOS MULTIPLES', '920': 'ORIFICIOS',
+               '960': 'ORIFICIOS'}
 
     # Extraemos
     df['Material'] = df['PO'].str.extract(r'(\d{3}+\Z)', expand=False)

@@ -73,18 +73,33 @@ def aplicar_estilos_html(df):
 
     return styled.to_html(index=False, escape=False)
 
+# Diccionario para renombrar
+rename_dict = {
+    "Nº Pedido": "Order No.",
+    "Nº PO": "PO No.",
+    "Nº Doc. Cliente": "Client Doc. No.",
+    "Nº Doc. EIPSA": "EIPSA Doc. No.",
+    "Título": "Title",
+    "Estado": "Status",
+    "Nº Revisión": "Revision No.",
+    "Fecha Env. Doc.": "Doc. Sent Date",
+    "Días Devolución": "Return Days"
+}
+# Renombrar columnas
+df_filtrado = df_filtrado.rename(columns=rename_dict)
+
 # Agrupar por prefijo y enviar correos
 outlook = win32.Dispatch('outlook.application')
 
 # Agrupar por prefijo y ordenar por Días Devolución de mayor a menor
 for prefijo, grupo in df_filtrado.groupby("Prefijo Pedido"):
-    grupo = grupo.sort_values(by='Días Devolución', ascending=False)
+    grupo = grupo.sort_values(by='Return Days', ascending=False)
 
     # Eliminar columna de prefijo para que no se muestre en el correo
     grupo = grupo.drop(columns=['Prefijo Pedido'])
 
     html_table = aplicar_estilos_html(grupo)
-    num_po = grupo['Nº PO'].iloc[0] if 'Nº PO' in grupo.columns and not grupo['Nº PO'].isnull().all() else 'N/A'
+    num_po = grupo['PO No.'].iloc[0] if 'PO No.' in grupo.columns and not grupo['PO No.'].isnull().all() else 'N/A'
 
     mail = outlook.CreateItem(0)
     mail.Subject = f"RECLAIMS: {prefijo} / PO: {num_po} // DOC. UNDER REVIEW"
