@@ -58,17 +58,26 @@ while message:
         regex_transmittal = r'^[A-Z]{3}-[A-Z]{5}-\d{6}'
         match = re.search(regex_transmittal, subject_email)
         transmittal_code = match.group(0) if match else None
-        print(transmittal_code)
+        #print(transmittal_code)
         subject_email = re.sub(r'[\/:*?"<>|]', '', subject_email)
         message.SaveAs(subject_email + '.msg')
         text_html = message.HTMLBody  # Captura de texto email
         html_body = BeautifulSoup(text_html, "lxml")  # Captura del texto.
-        html_tables = html_body('table')[0]  # Seleccionamos la tabla excel en el cuerpo del email.
+        #print(html_body)
+        html_tables = html_body('table')[0]
+        #print(html_tables)
         df_list = pd.read_html(StringIO(text_html))  # Captura del email en text_html.
-        df = df_list[0]  # Seleccionamos la posición [5] en la que encontramos la información y tabla del email.
+        df = df_list[1]  # Seleccionamos la posición [5] en la que encontramos la información y tabla del email.
         print(df)
-        df = df.loc[:, ['Name', 'P.O.', 'Title', 'Rev', 'S.R. Status',
-                        'Date']]  # Reorganizamos las columnas para realizar la importación correcta a BBDD.
+        df1 = df_list[0]
+        print(df1)
+        df1 = df1.loc[:, ['No. de documento', 'Revisión', 'Título', 'Estatus ', 'Date']]  # Reorganizamos las columnas para realizar la importación correcta a BBDD.
+        print(df1)
+
+
+
+
+
         df['Nº Pedido'] = df[
             'P.O.']  # Creamos una nueva columna en la cual identificamos el Tipo de documento a traves del ['Vendor Number'].
         prodoc_vendor_number(df)

@@ -146,5 +146,5 @@ def reemplazar_null(df):
     mapping = {np.nan: 'S00', 'S01': 'S01', 'S02': 'S02', 'S03': 'S03',
                'S04': 'S04', 'S05': 'S05', 'S06': 'S06', 'S07': 'S07'}
     df['Supp.'] = df['Supp.'].map(mapping).fillna('S00')
-    
+
     return df
