@@ -7,13 +7,16 @@ import subprocess
 import os
 import shutil
 import pandas as pd
+import sys  # 👈 para usar sys.executable
 
 
-today_date = pd.to_datetime('today', format='%d-%m-%Y', dayfirst=True)  # Capturamos la fecha actual del día
-today_date_str = today_date.strftime('%d-%m-%Y') # Formateamos la fecha_actual a strf para la lectura y guardado de archivos
+# Capturamos la fecha actual del día
+today_date = pd.to_datetime('today', dayfirst=True)
+today_date_str = today_date.strftime('%d-%m-%Y')
 
 # Ruta base para scripts locales
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
 
 def show_progress_and_run(target_func):
     progress_win = Toplevel(root)
@@ -73,20 +76,18 @@ def show_progress_and_run(target_func):
     animate_messages()
 
 
-
 def run_script(script_path, popup=None):
     try:
-        subprocess.run(["python", script_path], check=True)
-        #messagebox.showinfo("Éxito", f"'{os.path.basename(script_path)}' se ejecutó correctamente.")
+        subprocess.run([sys.executable, script_path], check=True)  # 👈 cambio aquí
         if popup:
             popup.destroy()
     except subprocess.CalledProcessError:
         messagebox.showerror("Error", f"Error al ejecutar '{os.path.basename(script_path)}'.")
 
-# Nueva función que ejecuta el script y copia el archivo generado
+
 def run_script_and_copy_excel(script_path, generated_file, popup=None):
     try:
-        subprocess.run(["python", script_path], check=True)
+        subprocess.run([sys.executable, script_path], check=True)  # 👈 cambio aquí
 
         destination_folder = filedialog.askdirectory(title="Selecciona una carpeta para copiar el Excel")
         if destination_folder:
@@ -107,14 +108,14 @@ def run_script_and_copy_excel(script_path, generated_file, popup=None):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-# --------- Subventana para "Devoluciones" ----------
+
 def open_excel_file(filepath, popup=None):
     try:
         full_path = os.path.join(script_dir, filepath)
         if not os.path.exists(full_path):
             messagebox.showerror("Error", f"No se encontró el archivo: {filepath}")
             return
-        os.startfile(full_path)  # Abre con Excel u otro programa asociado
+        os.startfile(full_path)
         if popup:
             popup.destroy()
     except Exception as e:
@@ -127,7 +128,7 @@ def open_devoluciones_popup():
     popup.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
     popup.configure(bg="#f0f0f0")
 
-    popup.geometry("520x200")  # aumentamos el ancho para dar espacio al cuarto botón
+    popup.geometry("520x200")
     popup.update_idletasks()
     popup_width = popup.winfo_width()
     popup_height = popup.winfo_height()
@@ -139,13 +140,14 @@ def open_devoluciones_popup():
 
     def load_logo(filename, size=(100, 100)):
         img_path = os.path.join(script_dir, filename)
-        image = Image.open(img_path).resize(size, Image.ANTIALIAS)
+        image = Image.open(img_path).resize(size, Image.Resampling.LANCZOS)  # 👈 cambio aquí
         return ImageTk.PhotoImage(image)
 
     tr_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\tr_logo.png")
     prodoc_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\prodoc_logo.png")
     gaia_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\gaia_logo.png")
     plantilla_img = load_logo("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\tools\\img\\plantilla_devoluciones.png")
+
     btn_tr = tk.Button(popup, image=tr_img, command=lambda: run_script(os.path.join(script_dir, "tr_email_mapi_automation.py")),
                        relief="raised", bd=4, cursor="hand2")
     btn_tr.image = tr_img
@@ -174,14 +176,13 @@ def open_devoluciones_popup():
     tk.Label(popup, text="Plantilla", bg="#f0f0f0").grid(row=1, column=3)
 
 
-# --------- Subventana para "Monitoring Report" ----------
 def open_monitoring_popup():
     popup = Toplevel(root)
     popup.title("Monitoring Report")
     popup.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
     popup.configure(bg="#f0f0f0")
 
-    popup.geometry("440x260")  # Ampliamos un poco el alto por el nuevo botón
+    popup.geometry("440x260")
     popup.update_idletasks()
     popup_width = popup.winfo_width()
     popup_height = popup.winfo_height()
@@ -206,12 +207,11 @@ def open_monitoring_popup():
 
     btn_reclamaciones = tk.Button(popup, text="Reclamaciones (Vía Email)",
                                   command=lambda: subprocess.run(
-                                      ["python", os.path.join(base_path, "reclamations.py")]),
+                                      [sys.executable, os.path.join(base_path, "reclamations.py")]),  # 👈 cambio aquí
                                   height=3, width=25, font=("Arial", 11, "bold"),
                                   relief="raised", bd=4, bg="#e67e22", fg="white", cursor="hand2")
     btn_reclamaciones.pack(pady=5)
 
-    # NUEVO BOTÓN OVR
     btn_ovr = tk.Button(popup, text="OVR",
                         command=lambda: show_progress_and_run(
                             lambda: run_script_and_copy_excel(
@@ -224,7 +224,6 @@ def open_monitoring_popup():
     btn_ovr.pack(pady=5)
 
 
-# --------- Ventana Principal ----------
 root = tk.Tk()
 root.title("DocuControl")
 root.configure(bg="#f0f0f0")
@@ -251,18 +250,15 @@ btn_devoluciones.pack(pady=5)
 
 def load_main_logo(filename, size=(64, 64)):
     img_path = os.path.join(script_dir, filename)
-    image = Image.open(img_path).resize(size, Image.ANTIALIAS)
+    image = Image.open(img_path).resize(size, Image.Resampling.LANCZOS)  # 👈 cambio aquí
     return ImageTk.PhotoImage(image)
 
 
-# Establecer ícono para ventana y barra de tareas
 root.iconbitmap(os.path.join(script_dir, "tools/img/docucontrol_icon-256x256.ico"))
 
-# Cargar imagenes visuales (.png)
 docu_icon = load_main_logo("tools/img/docucontrol_icon.png")
 img_eipsa_icon = load_main_logo("tools/img/main_logo_img.png")
 
-# Mostrar imagen visual en la esquina superior izquierda
 logo_label = tk.Label(root, image=img_eipsa_icon, bg="#f0f0f0", borderwidth=0)
 logo_label.place(x=10, y=10)
 
