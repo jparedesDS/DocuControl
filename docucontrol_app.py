@@ -7,7 +7,7 @@ import subprocess
 import os
 import shutil
 import pandas as pd
-import sys  # 👈 para usar sys.executable
+import sys
 
 
 # Capturamos la fecha actual del día
@@ -250,7 +250,7 @@ btn_devoluciones.pack(pady=5)
 
 def load_main_logo(filename, size=(64, 64)):
     img_path = os.path.join(script_dir, filename)
-    image = Image.open(img_path).resize(size, Image.Resampling.LANCZOS)  # 👈 cambio aquí
+    image = Image.open(img_path).resize(size, Image.Resampling.LANCZOS)
     return ImageTk.PhotoImage(image)
 
 

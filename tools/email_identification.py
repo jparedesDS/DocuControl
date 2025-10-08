@@ -5,7 +5,7 @@ email_TO = ';santos-sanchez@eipsa.es;'
 email_TO_CC = ';jesus-martinez@eipsa.es;ernesto-carrillo@eipsa.es;'
 email_LB = ';luis-bravo@eipsa.es;'
 email_AC = ';ana-calvo@eipsa.es;'
-email_SS = ';sandra-sanz@eipsa.es;'
+email_SS = ';luis-bravo@eipsa.es;'
 email_JV = ';jorge-valtierra@eipsa.es;'
 email_CC = ';carlos-crespohor@eipsa.es;'
 

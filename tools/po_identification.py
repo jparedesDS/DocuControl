@@ -54,7 +54,8 @@ def identificar_cliente_por_PO(df):
                'PO 45': 'ARAMCO', 'E2404': 'SENYANG', '5061-': 'MEDGAZ',
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
-               'PE-47': 'TECMACO'}
+               'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
+               '45032': 'YARA', '46000': 'JIGPC'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'
@@ -76,7 +77,7 @@ def identificar_cliente_por_PO_MR(df):
         pandas.DataFrame: DataFrame actualizado con la columna 'Cliente' identificada.
     """
     # mapping (dict): Diccionario de mapeo para identificar el cliente según el número de pedido.
-    mapping = mapping = {'21472': 'TECHNIP/SYNKEDIA',
+    mapping = {'21472': 'TECHNIP/SYNKEDIA',
                '10121': 'DUQM', '10150': 'BAPCO',
                '10160': 'CRISP', '10230': 'MARJAN',
                '10318': 'RAS TANURA', '10330': 'NEW PTA COMPLEX',
@@ -116,7 +117,8 @@ def identificar_cliente_por_PO_MR(df):
                'PO 45': 'ARAMCO', 'E2404': 'SENYANG', '5061-': 'MEDGAZ',
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
-               'PE-47': 'TECMACO'}
+               'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
+               '45032': 'YARA', '46000': 'JIGPC'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     df['Cliente'] = df['Nº PO'].apply(str)
@@ -174,11 +176,12 @@ def identificar_cliente_por_PO_PRODOC(df):
                '10651': 'ARAMCO/RIYAS', '45124': 'ADNOC/YOKOGAWA',
                'O-23/': 'SINES/YOKOGAWA', 'O-24/': 'SENER/GATE',
                'GAT22': 'SENER/GATE', '45126': 'ADNOC/YOKOGAWA',
-               'POPRI': 'REPSOL', '06000': 'CEPSA', '5040-': 'MEDGAZ',
+               'POPRI': 'REPSOL', '06000': 'CEPSA','5040-': 'MEDGAZ',
                'PO 45': 'ARAMCO', 'E2404': 'SENYANG', '5061-': 'MEDGAZ',
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
-               'PE-47': 'TECMACO'}
+               'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
+               '45032': 'YARA', '46000': 'JIGPC'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'
