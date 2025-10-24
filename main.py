@@ -9,20 +9,27 @@ import pandas as pd
 import sys
 
 # === CONFIGURACIÓN GENERAL ===
-ctk.set_appearance_mode("dark")  # "dark" | "light"
-ctk.set_default_color_theme("blue")  # "blue" | "green" | "dark-blue"
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
 today_date = pd.Timestamp.today()
 today_date_str = today_date.strftime("%d-%m-%Y")
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # === FUNCIONES AUXILIARES ===
-def bottom_right_window(win, width, height, padding_x=20, padding_y=40):
-    """Coloca la ventana en la esquina inferior derecha del escritorio."""
+def bottom_right_quadrant_window(win, padding_x=0, padding_y=40):
+    """Coloca la ventana en el cuadrante inferior derecho del monitor principal, sin tapar la barra de tareas."""
     win.update_idletasks()
     screen_w, screen_h = win.winfo_screenwidth(), win.winfo_screenheight()
+
+    # tamaño de un cuarto de pantalla
+    width = screen_w // 2
+    height = screen_h // 2 - padding_y
+
+    # posición inferior derecha
     x = screen_w - width - padding_x
     y = screen_h - height - padding_y
+
     win.geometry(f"{width}x{height}+{x}+{y}")
 
 def run_script(script_path):
@@ -55,7 +62,6 @@ def load_image(filename, size=(30, 30)):
     img = Image.open(path).resize(size, Image.Resampling.LANCZOS)
     return ImageTk.PhotoImage(img)
 
-# === FUNCIONES DE PROGRESO INTEGRADO ===
 def show_progress_in_content(parent_frame, func, callback=None):
     for widget in parent_frame.winfo_children():
         widget.destroy()
@@ -71,7 +77,8 @@ def show_progress_in_content(parent_frame, func, callback=None):
     msg_var = ctk.StringVar(value="Inicializando...")
     ctk.CTkLabel(container, textvariable=msg_var, font=("Arial", 11, "italic")).pack(pady=(5, 10))
 
-    msgs = ["Generando columnas...", "Aplicando formato...", "Ajustando celdas...", "Finalizando..."]
+    msgs = ["Extrayendo información de la base de datos...", "Resumiendo datos...", "Generando columnas...",
+            "Aplicando formato...", "Ajustando celdas...", "Generando archivo...", "Finalizando..."]
 
     def animate(i=0):
         if i < len(msgs):
@@ -91,61 +98,58 @@ def show_progress_in_content(parent_frame, func, callback=None):
     animate()
 
 # === CLASE PRINCIPAL ===
-# === CLASE PRINCIPAL ===
 class DocuControlApp(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("DocuControl App")
-        self.geometry("700x450")
-        self.minsize(700, 450)
-        bottom_right_window(self, 745, 450)
+
+        # tamaño y posición automática
+        bottom_right_quadrant_window(self)
 
         # Layout principal
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
         # Sidebar
-        self.sidebar = ctk.CTkFrame(self, width=180, corner_radius=0)
+        self.sidebar = ctk.CTkFrame(self, width=200, corner_radius=0)
         self.sidebar.grid(row=0, column=0, sticky="nswe")
-        self.sidebar.grid_rowconfigure(99, weight=1)  # Empuja todo lo de arriba
+        self.sidebar.grid_rowconfigure(99, weight=1)
 
-        logo = load_image("utils/img/main_logo_img.png", (40, 40))
+        logo = load_image("utils/img/main_logo_img.png", (45, 45))
         ctk.CTkLabel(self.sidebar, image=logo, text="", width=100).grid(row=0, column=0, pady=(15, 8))
         self.logo_img = logo
 
-        ctk.CTkLabel(self.sidebar, text="DocuControl", font=("Arial", 16, "bold")).grid(row=1, column=0, pady=(0, 15))
+        ctk.CTkLabel(self.sidebar, text="DocuControl", font=("Arial", 17, "bold")).grid(row=1, column=0, pady=(0, 20))
 
-        # Botones de navegación
+        # Botones laterales grandes
         self.btn_monitoring = ctk.CTkButton(self.sidebar, text="📊 Documentación", fg_color="#1E88E5",
-                                            height=36, corner_radius=6, font=("Arial", 11, "bold"),
+                                            height=45, corner_radius=8, font=("Arial", 12, "bold"),
                                             command=self.show_monitoring_page)
-        self.btn_monitoring.grid(row=2, column=0, pady=4, padx=8, sticky="ew")
+        self.btn_monitoring.grid(row=2, column=0, pady=6, padx=10, sticky="ew")
 
         self.btn_devoluciones = ctk.CTkButton(self.sidebar, text="📦 Devoluciones", fg_color="#43A047",
-                                              height=36, corner_radius=6, font=("Arial", 11, "bold"),
+                                              height=45, corner_radius=8, font=("Arial", 12, "bold"),
                                               command=self.show_devoluciones_page)
-        self.btn_devoluciones.grid(row=3, column=0, pady=4, padx=8, sticky="ew")
+        self.btn_devoluciones.grid(row=3, column=0, pady=6, padx=10, sticky="ew")
 
-        # --- FRAME INFERIOR PARA VOLVER Y SALIR ---
+        # Frame inferior
         self.bottom_frame = ctk.CTkFrame(self.sidebar, fg_color="transparent")
-        self.bottom_frame.grid(row=100, column=0, sticky="swe", padx=8, pady=12)
+        self.bottom_frame.grid(row=100, column=0, sticky="swe", padx=10, pady=12)
 
         self.btn_volver = ctk.CTkButton(self.bottom_frame, text="⬅️ Volver", fg_color="#757575",
-                                        height=36, corner_radius=6, font=("Arial", 11, "bold"),
+                                        height=45, corner_radius=8, font=("Arial", 12, "bold"),
                                         command=self.show_welcome_page)
-        self.btn_volver.pack(fill="x", pady=(0,2))
+        self.btn_volver.pack(fill="x", pady=(0,4))
 
         self.btn_exit = ctk.CTkButton(self.bottom_frame, text="🚪 Salir", fg_color="#E53935",
-                                      height=36, corner_radius=6, font=("Arial", 11, "bold"),
+                                      height=45, corner_radius=8, font=("Arial", 12, "bold"),
                                       command=self.destroy)
-        self.btn_exit.pack(fill="x", pady=(0,0))
+        self.btn_exit.pack(fill="x")
 
         # Frame principal
         self.content = ctk.CTkFrame(self, corner_radius=8)
         self.content.grid(row=0, column=1, sticky="nswe", padx=15, pady=15)
         self.show_welcome_page()
-
-
 
     # === PÁGINAS ===
     def clear_content(self):
@@ -154,9 +158,9 @@ class DocuControlApp(ctk.CTk):
 
     def show_welcome_page(self):
         self.clear_content()
-        ctk.CTkLabel(self.content, text="Bienvenido a DocuControl 👋", font=("Arial", 20, "bold")).pack(pady=30)
+        ctk.CTkLabel(self.content, text="Bienvenido a DocuControl 👋", font=("Arial", 22, "bold")).pack(pady=30)
         ctk.CTkLabel(self.content, text="Selecciona una opción en el menú lateral para comenzar.",
-                     font=("Arial", 12)).pack(pady=8)
+                     font=("Arial", 13)).pack(pady=8)
 
     def show_monitoring_page(self):
         self.clear_content()
@@ -194,12 +198,12 @@ class DocuControlApp(ctk.CTk):
                 command=cmd,
                 fg_color=color,
                 text_color="white",
-                font=("Arial", 11, "bold"),
-                corner_radius=6,
-                height=36,
-                width=200
+                font=("Arial", 12, "bold"),
+                corner_radius=8,
+                height=50,
+                width=230
             )
-            btn.grid(row=i, column=0, pady=6, padx=5, sticky="ew")
+            btn.grid(row=i, column=0, pady=8, padx=8, sticky="ew")
 
     def show_devoluciones_page(self):
         self.clear_content()
@@ -216,7 +220,7 @@ class DocuControlApp(ctk.CTk):
         frame.pack(pady=8)
 
         for i, (label, (img, script)) in enumerate(logos.items()):
-            logo_img = load_image(img, (65, 65))
+            logo_img = load_image(img, (75, 75))
             if script:
                 cmd = lambda s=script: run_script(os.path.join(script_dir, s))
             else:
@@ -230,11 +234,11 @@ class DocuControlApp(ctk.CTk):
                 fg_color="#2C3E50",
                 hover_color="#34495E",
                 corner_radius=8,
-                width=90,
-                height=110
+                width=110,
+                height=130
             )
             btn.image = logo_img
-            btn.grid(row=0, column=i, padx=6, pady=6)
+            btn.grid(row=0, column=i, padx=10, pady=6)
 
 # === EJECUCIÓN ===
 if __name__ == "__main__":

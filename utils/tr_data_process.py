@@ -116,6 +116,7 @@ def cambiar_tipo_estado(df):
         'B - REVIEWED WITH MAJOR COMMENTS': 'Com. Mayores',
         'C - REVIEWED WITH MINOR COMMENTS': 'Com. Menores',
         'F - REVIEWED WITHOUT COMMENTS': 'Aprobado',
+        'F - ACCEPTED WITHOUT COMMENTS': 'Aprobado',
         'W - ISSUED FOR CERTIFICATION': 'Certificación',
         'M - VOID': 'Eliminado', 'R - REVIEWED AS BUILT': 'Aprobado'}
 

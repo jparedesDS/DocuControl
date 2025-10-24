@@ -17,17 +17,17 @@ dia = date.strftime('%d-%m-%Y')
 fecha_actual = pd.Timestamp.now()
 # Generamos las carpetas correspondientes para guardar los archivosTECNICAS REUNIDAS
 # f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\'
-nombre_carpeta = os.path.join(f'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\' +dia)
+nombre_carpeta = os.path.join(f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\' +dia)
 if not os.path.isdir(nombre_carpeta):
     print(f'No existe la ruta: '+nombre_carpeta+', se crea la carpeta')
     os.mkdir(nombre_carpeta)
 
 # Ruta del archivo Excel donde se agregarán los datos
-combine_path = f'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\all_tr_combine.xlsx'
+combine_path = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\all_tr_combine.xlsx'
 # Se indica la url en la que guardaremos los archivos
 cwd = os.getcwd()    # Capturamos la url de la carpeta
 src = cwd    # Capturamos la url en una variable
-dst = f'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\' +str(dia)    # Generamos una url de una nueva carpeta en la que iran los .xlsx
+dst = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\' +str(dia)    # Generamos una url de una nueva carpeta en la que iran los .xlsx
 
 # Añadimos dataframes vacíos para la captura de los datos
 df = pd.DataFrame()
