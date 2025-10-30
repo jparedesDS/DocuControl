@@ -103,6 +103,19 @@ class DocuControlApp(ctk.CTk):
         super().__init__()
         self.title("DocuControl App")
 
+        # === ICONO DE LA APP ===
+        icon_path = os.path.join(script_dir, "utils/img/docucontrol_white_icon.ico")
+        if os.path.exists(icon_path):
+            try:
+                # Asegura el icono en la barra de tareas (Windows)
+                self.iconbitmap(icon_path)
+
+                # Este fragmento adicional lo refuerza en algunos sistemas
+                import ctypes
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("DocuControl App")
+            except Exception as e:
+                print(f"No se pudo establecer el icono: {e}")
+
         # tamaño y posición automática
         bottom_right_quadrant_window(self)
 
@@ -115,7 +128,7 @@ class DocuControlApp(ctk.CTk):
         self.sidebar.grid(row=0, column=0, sticky="nswe")
         self.sidebar.grid_rowconfigure(99, weight=1)
 
-        logo = load_image("utils/img/main_logo_img.png", (45, 45))
+        logo = load_image("utils/img/main_logo_img.png", (60, 60))
         ctk.CTkLabel(self.sidebar, image=logo, text="", width=100).grid(row=0, column=0, pady=(15, 8))
         self.logo_img = logo
 
@@ -158,13 +171,41 @@ class DocuControlApp(ctk.CTk):
 
     def show_welcome_page(self):
         self.clear_content()
-        ctk.CTkLabel(self.content, text="Bienvenido a DocuControl 👋", font=("Arial", 22, "bold")).pack(pady=30)
-        ctk.CTkLabel(self.content, text="Selecciona una opción en el menú lateral para comenzar.",
-                     font=("Arial", 13)).pack(pady=8)
+
+        # Logo arriba
+        self.logo_image = load_image("utils/img/docucontrol_white.png", (450, 280))
+        ctk.CTkLabel(self.content, image=self.logo_image, text="").pack(pady=(0, 30))
+
+        # Título grande
+        ctk.CTkLabel(
+            self.content,
+            text="¡Bienvenido! 👋",
+            font=("Arial", 26, "bold")
+        ).pack(pady=(0, 15))
+
+        # Subtítulo o descripción
+        ctk.CTkLabel(
+            self.content,
+            text="Gestiona tus documentos de manera rápida y sencilla.\n"
+                 "Selecciona una opción en el menú lateral para comenzar.",
+            font=("Arial", 16),
+            wraplength=450,
+            justify="center"
+        ).pack(pady=(0, 30))
+
+        '''# Opcional: botón de acción para empezar
+        ctk.CTkButton(
+            self.content,
+            text="Comenzar",
+            width=200,
+            height=40,
+            fg_color="#6678AF",
+            hover_color="#5566AA"
+        ).pack(pady=(0, 20))'''
 
     def show_monitoring_page(self):
         self.clear_content()
-        ctk.CTkLabel(self.content, text="📊 Control Documental", font=("Arial", 18, "bold")).pack(pady=15)
+        ctk.CTkLabel(self.content, text="📊 Control Documental", font=("Arial", 26, "bold")).pack(pady=15)
 
         btn_frame = ctk.CTkFrame(self.content, fg_color="transparent")
         btn_frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -207,7 +248,7 @@ class DocuControlApp(ctk.CTk):
 
     def show_devoluciones_page(self):
         self.clear_content()
-        ctk.CTkLabel(self.content, text="📦 Devolución de documentos", font=("Arial", 18, "bold")).pack(pady=15)
+        ctk.CTkLabel(self.content, text="📦 Devolución de documentos", font=("Arial", 26, "bold")).pack(pady=15)
 
         logos = {
             "Técnicas Reunidas": ("utils/img/tr_logo.png", "utils/tr_email_mapi_automation.py"),
