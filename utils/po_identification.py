@@ -55,7 +55,8 @@ def identificar_cliente_por_PO(df):
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
                'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
-               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP'}
+               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP',
+               '19116': 'BP OIL'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'
@@ -118,7 +119,8 @@ def identificar_cliente_por_PO_MR(df):
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
                'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
-               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP'}
+               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP',
+               '19116': 'BP OIL'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     df['Cliente'] = df['Nº PO'].apply(str)
@@ -181,7 +183,8 @@ def identificar_cliente_por_PO_PRODOC(df):
                '60002': 'MOEVE', 'TR-19': 'MOEVE', '19128': 'MOEVE',
                'D2632': 'MOEVE', 'D22471': 'MOEVE', '44000': 'PETRONASH',
                'PE-47': 'TECMACO', '45131': 'YOKOWAGA/GALP', 'EC25T': 'ALMARAZ/TRILLO',
-               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP'}
+               '45032': 'YARA', '46000': 'JIGPC', '30013': 'BP/TECHNIP',
+               '19116': 'BP OIL'}
 
     # Definir la expresión regular para extraer los primeros 5 dígitos del número de pedido (PO)
     regex_pattern = r'^(\d{5})'

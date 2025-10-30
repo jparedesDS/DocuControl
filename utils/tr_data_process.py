@@ -33,7 +33,7 @@ def reconocer_tipo_proyecto(df):
                '640': 'TEMPERATURA', '710': 'NIVEL VIDRIO',
                '740': 'TUBERÍAS', '910': 'CAUDAL',
                '911': 'SALTOS MULTIPLES', '920': 'ORIFICIOS',
-               '960': 'ORIFICIOS'}
+               '960': 'ORIFICIOS', '010': 'VALVULAS'}
 
     # Extraemos
     df['Material'] = df['PO'].str.extract(r'(\d{3}+\Z)', expand=False)

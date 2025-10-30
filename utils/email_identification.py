@@ -124,14 +124,19 @@ def get_responsable_email(numero_pedido):
                      'P-25/020': email_AC, 'P-25/021': email_AC, 'P-25/022': email_AC, 'P-25/023': email_SS,
                      'P-25/024': email_SS, 'P-25/025': email_AC, 'P-25/026': email_LB, 'P-25/027': email_LB,
                      'P-25/028': email_LB, 'P-25/029': email_AC, 'P-25/030': email_SS, 'P-25/031': email_SS,
-                     'P-25/032': email_AC, 'P-25/033': email_AC, 'P-25/034': email_CC, 'P-25/035': email_AC,
-                     'P-25/036': email_AC, 'P-25/037': email_AC, 'P-25/038': email_AC, 'P-25/039': email_AC,
-                     'P-25/040': email_SS, 'P-25/041': email_AC, 'P-25/042': email_CC, 'P-25/043': email_AC,
-                     'P-25/044': email_SS, 'P-25/045': email_AC, 'P-25/046': email_CC, 'P-25/047': email_AC,
-                     'P-25/048': email_SS, 'P-25/049': email_AC, 'P-25/050': email_CC, 'P-25/051': email_AC,
-                     'P-25/052': email_SS, 'P-25/053': email_AC, 'P-25/054': email_CC, 'P-25/055': email_AC,
-                     'P-25/056': email_SS, 'P-25/057': email_AC, 'P-25/058': email_CC, 'P-25/059': email_AC,
-                     'P-25/060': email_SS, 'P-25/061': email_AC, 'P-25/062': email_CC, 'P-25/063': email_AC,}
+                     'P-25/032': email_AC, 'P-25/033': email_AC, 'P-25/034': email_CC, 'P-25/035': email_CC,
+                     'P-25/036': email_LB, 'P-25/037': email_AC, 'P-25/038': email_AC, 'P-25/039': email_AC,
+                     'P-25/040': email_SS, 'P-25/041': email_AC, 'P-25/042': email_AC, 'P-25/043': email_SS,
+                     'P-25/044': email_SS, 'P-25/045': email_LB, 'P-25/046': email_LB, 'P-25/047': email_AC,
+                     'P-25/048': email_CC, 'P-25/049': email_CC, 'P-25/050': email_LB, 'P-25/051': email_AC,
+                     'P-25/052': email_SS, 'P-25/053': email_AC, 'P-25/054': email_LB, 'P-25/055': email_AC,
+                     'P-25/056': email_AC, 'P-25/057': email_AC, 'P-25/058': email_AC, 'P-25/059': email_LB,
+                     'P-25/060': email_AC, 'P-25/061': email_AC, 'P-25/062': email_AC, 'P-25/063': email_LB,
+                     'P-25/064': email_AC, 'P-25/065': email_AC, 'P-25/066': email_CC, 'P-25/067': email_AC,
+                     'P-25/068': email_SS, 'P-25/069': email_AC, 'P-25/070': email_CC, 'P-25/071': email_AC,
+                     'P-25/072': email_SS, 'P-25/073': email_AC, 'P-25/074': email_CC, 'P-25/075': email_AC,
+                     'P-25/076': email_SS, 'P-25/077': email_AC, 'P-25/078': email_CC, 'P-25/079': email_AC,
+                     }
 
     for key in email_mapping:
         if key in numero_pedido:
