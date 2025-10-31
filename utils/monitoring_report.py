@@ -313,14 +313,14 @@ def apply_excel_styles(archivo_excel):
 
     # === Colorear columnas Responsable y Repsonsable solo texto y negrita ===
     responsables_colores = {
-        "SS": "A32121",  # Azul marino oscuro
+        "SS": "262626",  # Azul marino oscuro
+        "CCH": "00B0F0", # Azul brillante
         "JM": "2C8A6A",  # Verde esmeralda
         "JV": "006B95",  # Azul petróleo
         "EC": "B31274",  # Rosa intenso (magenta oscuro)
         "ES": "5A0DA0",  # Púrpura fuerte
         "JP": "00458F",  # Azul profesional
         "AC": "3F0075",  # Índigo
-        "CCH": "1F1F1F",  # Gris oscuro casi negro
         "LB": "176DD1",  # Azul brillante
         "RM": "228B22",  # Verde bosque
         "RP": "1B365D",  # Rojo oscuro
@@ -436,4 +436,14 @@ def apply_excel_styles(archivo_excel):
 apply_excel_styles(output_path)
 
 print(f"✅ Archivo Excel final generado en:\n{output_path}")
+
+# === COPIAR ARCHIVO A RUTA COMPARTIDA ===
+import shutil
+dest_path = r"Z:\JOSE\01 MONITORING REPORT"
+try:
+    shutil.copy(output_path, dest_path)
+    print(f"✅ Copia del archivo también guardada en:\n{dest_path}")
+except Exception as e:
+    print(f"⚠️ Error al copiar el archivo a {dest_path}: {e}")
+
 print("Duración del proceso: {:.2f} segundos".format(time.time() - start_time))

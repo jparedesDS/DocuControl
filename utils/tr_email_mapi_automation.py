@@ -23,7 +23,7 @@ if not os.path.isdir(nombre_carpeta):
     os.mkdir(nombre_carpeta)
 
 # Ruta del archivo Excel donde se agregarán los datos
-combine_path = f'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\all_tr_combine.xlsx'
+combine_path = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\all_tr_combine.xlsx'
 # Se indica la url en la que guardaremos los archivos
 cwd = os.getcwd()    # Capturamos la url de la carpeta
 src = cwd    # Capturamos la url en una variable

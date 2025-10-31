@@ -78,7 +78,9 @@ def show_progress_in_content(parent_frame, func, callback=None):
     ctk.CTkLabel(container, textvariable=msg_var, font=("Arial", 11, "italic")).pack(pady=(5, 10))
 
     msgs = ["Extrayendo información de la base de datos...", "Resumiendo datos...", "Generando columnas...",
-            "Aplicando formato...", "Ajustando celdas...", "Generando archivo...", "Finalizando..."]
+            "Aplicando formato...", "Ajustando celdas...", "Generando archivo...", "Extrayendo información de la base de datos...",
+            "Resumiendo datos...", "Generando columnas...", "Aplicando formato...", "Ajustando celdas...", "Generando archivo...",
+            "Finalizando..."]
 
     def animate(i=0):
         if i < len(msgs):
