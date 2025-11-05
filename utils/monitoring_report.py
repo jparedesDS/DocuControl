@@ -314,13 +314,14 @@ def apply_excel_styles(archivo_excel):
     # === Colorear columnas Responsable y Repsonsable solo texto y negrita ===
     responsables_colores = {
         "SS": "262626",  # Azul marino oscuro
-        "CCH": "00B0F0", # Azul brillante
+        "CCH": "00B0F0",
         "JM": "2C8A6A",  # Verde esmeralda
         "JV": "006B95",  # Azul petróleo
         "EC": "B31274",  # Rosa intenso (magenta oscuro)
         "ES": "5A0DA0",  # Púrpura fuerte
         "JP": "00458F",  # Azul profesional
         "AC": "3F0075",  # Índigo
+        "CCH": "1F1F1F",  # Gris oscuro casi negro
         "LB": "176DD1",  # Azul brillante
         "RM": "228B22",  # Verde bosque
         "RP": "1B365D",  # Rojo oscuro

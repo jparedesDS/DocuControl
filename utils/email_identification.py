@@ -21,7 +21,7 @@ def email_employee(df):
     """
 
     mapping = {'PLG': '', 'DWG': '', 'CAL': '', 'ESP': '', 'CER': email_JV, 'NACE': '', 'LIS': email_JV, 'ITP': '',
-               'PRC': email_JV, 'MAN': email_JV, 'VDB': '', 'PLN': '', 'PLD': '', 'CAT': email_JV, 'DL': '', 'DOS': email_JV, 'SPL': email_JV, 'WD': '', 'DD': email_JV}
+               'PRC': email_JV, 'MAN': email_JV, 'VDB': '', 'PLN': '', 'PLD': '', 'CAT': email_JV, 'DL': '', 'DOS': email_JV, 'SPL': email_JV, 'WD': '', 'DD': email_JV, 'PRG': ''}
 
     df['EMAIL'] = df['EMAIL'].map(mapping)
     df = df['EMAIL'].apply(pd.Series)

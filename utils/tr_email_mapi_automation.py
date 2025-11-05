@@ -108,7 +108,7 @@ while message:
         df['Responsable_email'] = df['Nº Pedido'].apply(get_responsable_email)
         # Generamos la selección automática de a quien se va a enviar el email
         mapping = {';luis-bravo@eipsa.es;': 'LB', ';ana-calvo@eipsa.es;': 'AC', ';sandra-sanz@eipsa.es;': 'SS',
-                       ';carlos-crespohor@eipsa.es;': 'CC'}
+                       ';carlos-crespohor@eipsa.es;': 'CCH'}
         df['Responsable'] = df.apply(lambda row: mapping[row['Responsable_email']], axis=1)
         df.reset_index()  # Quitamos el index el df
         df3 = df['Responsable_email'].apply(
