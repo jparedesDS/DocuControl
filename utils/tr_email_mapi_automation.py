@@ -15,19 +15,20 @@ from utils.apply_style_email import *
 date = datetime.now()
 dia = date.strftime('%d-%m-%Y')
 fecha_actual = pd.Timestamp.now()
-# Generamos las carpetas correspondientes para guardar los archivosTECNICAS REUNIDAS
-# f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\'
-nombre_carpeta = os.path.join(f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\' +dia)
+# Generamos las carpetas correspondientes para guardar los archivos TECNICAS REUNIDAS
+ruta_base = r'\\10.1.20.6\datos\Comunes\JOSE\02 DEVOLUCIÓN DOCUMENTACIÓN\TECNICAS REUNIDAS'
+nombre_carpeta = os.path.join(ruta_base, dia)
 if not os.path.isdir(nombre_carpeta):
-    print(f'No existe la ruta: '+nombre_carpeta+', se crea la carpeta')
+    print(f'No existe la ruta: {nombre_carpeta}, se crea la carpeta')
     os.mkdir(nombre_carpeta)
 
 # Ruta del archivo Excel donde se agregarán los datos
-combine_path = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\all_tr_combine.xlsx'
+combine_path = os.path.join(ruta_base, 'all_tr_combine.xlsx')
+
 # Se indica la url en la que guardaremos los archivos
-cwd = os.getcwd()    # Capturamos la url de la carpeta
-src = cwd    # Capturamos la url en una variable
-dst = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\TECNICAS REUNIDAS\\' +str(dia)    # Generamos una url de una nueva carpeta en la que iran los .xlsx
+cwd = os.getcwd()  # Capturamos la url de la carpeta
+src = cwd
+dst = nombre_carpeta  # Guardamos directamente en la carpeta del día
 
 # Añadimos dataframes vacíos para la captura de los datos
 df = pd.DataFrame()
@@ -160,8 +161,11 @@ while message:
                                                    '<p>HAY QUE SUBIRLO ANTES DEL: ' + (
                                         date + pd.DateOffset(days=15)).strftime("%d-%m-%Y") + '</p>'
                                                                                               '</body></html>')
-        attach = 'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\RESUMEN - ' + subject_email + '.xlsx'  # Url para la captura del documento.
-        newmail.Attachments.Add(attach)  # Adjuntar el archivo al email.
+        attach = os.path.join(
+            r'U:\USUARIOS\jose.paredes\Desktop\DocuControl\utils',
+            f'RESUMEN - {subject_email}.xlsx'
+        )
+        newmail.Attachments.Add(attach)
         newmail.Display()  # Visualización del email.
         # newmail.Send()    # Envio automático del email.
         # Movemos los archivos a las carpetas correspondientes

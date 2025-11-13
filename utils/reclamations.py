@@ -10,7 +10,7 @@ hoy = pd.to_datetime("today")
 hoy_str = hoy.strftime("%d-%m-%Y")
 
 # Ruta del archivo original
-ruta_excel = f"C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\monitoring_report_{hoy_str}.xlsx"
+ruta_excel = f"U:\\USUARIOS\\jose.paredes\\Desktop\\DocuControl\\monitoring_report_{hoy_str}.xlsx"
 
 # Cargar DataFrame desde hoja 'ENVIADOS'
 df = pd.read_excel(ruta_excel, sheet_name='ENVIADOS')

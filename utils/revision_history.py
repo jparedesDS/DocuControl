@@ -8,7 +8,7 @@ today_date = datetime.today()
 today_date_str = today_date.strftime('%d-%m-%Y')
 
 # Cargar el archivo Excel principal
-df = pd.read_excel("C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\data_import\\data_erp.xlsx")
+df = pd.read_excel("U:\\USUARIOS\\jose.paredes\\Desktop\\DocuControl\\data_import\\data_erp.xlsx")
 df = df[df['Estado'] != 'Eliminado']
 df['Estado'] = df['Estado'].fillna('Sin Enviar')
 

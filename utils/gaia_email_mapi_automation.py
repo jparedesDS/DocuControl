@@ -17,17 +17,17 @@ date = datetime.now()
 dia = date.strftime('%d-%m-%Y')
 fecha_actual = pd.Timestamp.now()
 # Generamos las carpetas correspondientes para guardar los archivos
-nombre_carpeta = os.path.join(f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\' +dia)
+nombre_carpeta = os.path.join(f'\\10.1.20.6\\datos\\Comunes\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\' +dia)
 if not os.path.isdir(nombre_carpeta):
     print(f'No existe la ruta: '+nombre_carpeta+', se crea la carpeta')
     os.mkdir(nombre_carpeta)
 
 # Ruta del archivo Excel donde se agregarán los datos
-combine_path = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\all_tr_combine.xlsx'
+combine_path = f'\\10.1.20.6\\datos\\Comunes\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\all_tr_combine.xlsx'
 # Se indica la url en la que guardaremos los archivos
 cwd = os.getcwd()    # Capturamos la url de la carpeta
 src = cwd    # Capturamos la url en una variable
-dst = f'Z:\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\' +str(dia)    # Generamos una url de una nueva carpeta en la que iran los .xlsx
+dst = f'\\10.1.20.6\\datos\\Comunes\\JOSE\\02 DEVOLUCIÓN DOCUMENTACIÓN\\GAIA\\' +str(dia)    # Generamos una url de una nueva carpeta en la que iran los .xlsx
 
 # Añadimos dataframes vacíos para la captura de los datos
 df = pd.DataFrame()
@@ -150,7 +150,7 @@ while message:
                                                '<p>HAY QUE SUBIRLO ANTES DEL: ' + (
                                     date + pd.DateOffset(days=15)).strftime("%d-%m-%Y") + '</p>'
                                                                                           '</body></html>')
-        attach = 'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\RESUMEN - ' + subject_email + '.xlsx'  # Url para la captura del documento.
+        attach = 'U:\\USUARIOS\\jose.paredes\\Desktop\\DocuControl\\RESUMEN - ' + subject_email + '.xlsx'  # Url para la captura del documento.
         print(subject_email)
         newmail.Attachments.Add(attach)  # Adjuntar el archivo al email.
         newmail.Display()  # Visualización del email.

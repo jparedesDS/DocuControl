@@ -6,10 +6,10 @@ warnings.filterwarnings('ignore')
 start_time = time.time()
 
 # === RUTA Y LECTURA DE DATOS ===
-data_path_total = r'C:\Users\alejandro.berzal\Desktop\DATA SCIENCE\DocuControl\data_import\data_erp.xlsx'
+data_path_total = r'U:\USUARIOS\jose.paredes\Desktop\DocuControl\data_import\data_erp.xlsx'
 erp_data = pd.read_excel(data_path_total)
 df_total = pd.read_excel(data_path_total)
-consultar_data_path_total = r'C:\Users\alejandro.berzal\Desktop\DATA SCIENCE\DocuControl\data_import\consulta_erp.xlsx'
+consultar_data_path_total = r'U:\USUARIOS\jose.paredes\Desktop\DocuControl\data_import\consulta_erp.xlsx'
 consulta_data = pd.read_excel(consultar_data_path_total)
 
 # === UNIR COLUMNAS 'Responsable' Y 'Nº Oferta' DESDE consulta_data ===
@@ -102,7 +102,7 @@ df_criticos = reorder_columns(df_criticos)
 df_sin_envio = reorder_columns(df_sin_envio)
 
 # === EXPORTAR A EXCEL ===
-output_path = fr'C:\\Users\\alejandro.berzal\\Desktop\\DATA SCIENCE\\DocuControl\\monitoring_report_{today_date_str}.xlsx'
+output_path = fr'U:\USUARIOS\jose.paredes\Desktop\DocuControl\monitoring_report_{today_date_str}.xlsx'
 with pd.ExcelWriter(output_path, engine='openpyxl', datetime_format='DD/MM/YYYY') as writer:
     # Orden de las sheets:
     # ENVIADOS
@@ -440,7 +440,7 @@ print(f"✅ Archivo Excel final generado en:\n{output_path}")
 
 # === COPIAR ARCHIVO A RUTA COMPARTIDA ===
 import shutil
-dest_path = r"Z:\JOSE\01 MONITORING REPORT"
+dest_path = r"\\10.1.20.6\datos\Comunes\JOSE\01 MONITORING REPORT"
 try:
     shutil.copy(output_path, dest_path)
     print(f"✅ Copia del archivo también guardada en:\n{dest_path}")
