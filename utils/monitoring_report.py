@@ -21,14 +21,20 @@ else:
     df_total = df_total.merge(consulta_data[cols_to_add], on='Nº Pedido', how='left')
     erp_data = erp_data.merge(consulta_data[cols_to_add], on='Nº Pedido', how='left')
 
-# === LIMPIEZA Y FORMATEO DE FECHAS ===
+# === LIMPIEZA DE DATOS ===
 erp_data['Estado'] = erp_data['Estado'].fillna('Sin Enviar')
 df_total['Estado'] = df_total['Estado'].fillna('Sin Enviar')
 erp_data = erp_data[erp_data['Estado'] != 'Eliminado'].copy()
 df_total = df_total[df_total['Estado'] != 'Eliminado'].copy()
+
+# === ELIMINAR DOCUMENTOS QUE CONTIENEN '-BIS' EN Nº Doc. EIPSA ===
+for df in [erp_data, df_total]:
+    if 'Nº Doc. EIPSA' in df.columns:
+        df.drop(df[df['Nº Doc. EIPSA'].astype(str).str.contains('-BIS', na=False)].index, inplace=True)
+
+ # === FORMATEO DE FECHAS ===
 today_date = pd.to_datetime('today')
 today_date_str = today_date.strftime('%d-%m-%Y')
-
 for df in [erp_data, df_total, consulta_data]:
     for col in ['Fecha', 'Fecha Pedido', 'Fecha Prevista', 'Fecha Fabricación', 'Fecha Montaje', 'Fecha Envío']:
         if col in df.columns:
@@ -443,7 +449,7 @@ import shutil
 dest_path = r"\\10.1.20.6\datos\Comunes\JOSE\01 MONITORING REPORT"
 try:
     shutil.copy(output_path, dest_path)
-    print(f"✅ Copia del archivo también guardada en:\n{dest_path}")
+    print(f"✅ Copia del archivo también guardado en:\n{dest_path}")
 except Exception as e:
     print(f"⚠️ Error al copiar el archivo a {dest_path}: {e}")
 

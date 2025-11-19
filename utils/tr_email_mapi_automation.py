@@ -162,7 +162,7 @@ while message:
                                         date + pd.DateOffset(days=15)).strftime("%d-%m-%Y") + '</p>'
                                                                                               '</body></html>')
         attach = os.path.join(
-            r'U:\USUARIOS\jose.paredes\Desktop\DocuControl\utils',
+            r'U:\USUARIOS\jose.paredes\Desktop\DocuControl',
             f'RESUMEN - {subject_email}.xlsx'
         )
         newmail.Attachments.Add(attach)
