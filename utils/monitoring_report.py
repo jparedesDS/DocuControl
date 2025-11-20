@@ -2,6 +2,7 @@ import time
 import warnings
 import pandas as pd
 from openpyxl import load_workbook
+
 warnings.filterwarnings('ignore')
 start_time = time.time()
 
@@ -32,7 +33,7 @@ for df in [erp_data, df_total]:
     if 'Nº Doc. EIPSA' in df.columns:
         df.drop(df[df['Nº Doc. EIPSA'].astype(str).str.contains('-BIS', na=False)].index, inplace=True)
 
- # === FORMATEO DE FECHAS ===
+# === FORMATEO DE FECHAS ===
 today_date = pd.to_datetime('today')
 today_date_str = today_date.strftime('%d-%m-%Y')
 for df in [erp_data, df_total, consulta_data]:
@@ -58,6 +59,7 @@ def rename_columns(df, fecha_old, new_name):
     if fecha_old in df.columns:
         df = df.rename(columns={fecha_old: new_name})
     return df
+
 df_comentados = rename_columns(df_comentados, 'Fecha', 'Fecha Dev. Doc.')
 df_envio = rename_columns(df_envio, 'Fecha', 'Fecha Env. Doc.')
 df_criticos = rename_columns(df_criticos, 'Fecha', 'Fecha Doc.')
@@ -86,8 +88,10 @@ status_global['Total'] = status_global.iloc[:, 1:].sum(axis=1)
 status_global['% Completado'] = (status_global['Aprobado'] / status_global['Total'] * 100).fillna(0).round(2)
 status_global = status_global[status_global['% Completado'] != 100]
 
-# === UNIFICAR PENDIENTES ===
-#df_pendientes = pd.concat([df_sin_envio, df_comentados], ignore_index=True)
+# === ORDENAR POR Nº PEDIDO ANTES DE EXPORTAR ===
+for df in [df_total, df_envio, df_comentados, df_criticos, df_sin_envio]:
+    if 'Nº Pedido' in df.columns:
+        df.sort_values(by='Nº Pedido', ascending=False, inplace=True, na_position='last')
 
 # === ORDENAR COLUMNAS ===
 column_order = [
@@ -101,6 +105,7 @@ def reorder_columns(df):
     existing_cols = [col for col in column_order if col in df.columns]
     remaining_cols = [col for col in df.columns if col not in existing_cols]
     return df[existing_cols + remaining_cols]
+
 df_total = reorder_columns(df_total)
 df_envio = reorder_columns(df_envio)
 df_comentados = reorder_columns(df_comentados)
@@ -110,30 +115,21 @@ df_sin_envio = reorder_columns(df_sin_envio)
 # === EXPORTAR A EXCEL ===
 output_path = fr'U:\USUARIOS\jose.paredes\Desktop\DocuControl\monitoring_report_{today_date_str}.xlsx'
 with pd.ExcelWriter(output_path, engine='openpyxl', datetime_format='DD/MM/YYYY') as writer:
-    # Orden de las sheets:
-    # ENVIADOS
     df_envio.to_excel(writer, sheet_name='ENVIADOS', index=False)
-    # PENDIENTES
     df_comentados.to_excel(writer, sheet_name='DEVOLUCIONES', index=False)
-    # CRÍTICOS
     df_criticos_menor15 = df_criticos[(df_criticos['Días Devolución'] <= 15) | (df_criticos['Días Devolución'].isna())].copy()
     df_criticos_menor15.to_excel(writer, sheet_name='CRÍTICOS', index=False)
-    # CRÍTICOS +15d
     df_criticos_mas15 = df_criticos[df_criticos['Días Devolución'] > 15].copy()
     df_criticos_mas15.to_excel(writer, sheet_name='CRÍTICOS +15d', index=False)
-    # SIN ENVIAR
     df_sin_envio.to_excel(writer, sheet_name='SIN ENVIAR', index=False)
-    # ALL DOC.
     df_total.to_excel(writer, sheet_name='ALL DOC.', index=False)
-    # GRÁFICO EN "STATUS GLOBAL"
     status_global.to_excel(writer, sheet_name='STATUS GLOBAL', index=False)
 
-# === FORMATO FECHAS, FILTRO, ORDEN Y AJUSTE COLUMNAS ===
+# === FORMATO FECHAS, FILTRO Y AJUSTE COLUMNAS ===
 fechas_cols = ["Fecha", "Fecha Pedido", "Fecha Prevista", "Fecha Dev. Doc.", "Fecha Env. Doc.", "Fecha Doc."]
 wb = load_workbook(output_path)
 for ws in wb.worksheets:
     header_map = {cell.value: idx + 1 for idx, cell in enumerate(ws[1])}
-
     # Formato fechas
     for col_name in fechas_cols:
         if col_name in header_map:
@@ -141,19 +137,8 @@ for ws in wb.worksheets:
             for cell in ws.iter_cols(min_col=col_idx, max_col=col_idx, min_row=2):
                 for c in cell:
                     c.number_format = 'DD/MM/YYYY'
-
     # Filtro automático
     ws.auto_filter.ref = ws.dimensions
-
-    # Orden descendente por Nº Pedido
-    if 'Nº Pedido' in header_map:
-        col_idx = header_map['Nº Pedido']
-        data_rows = list(ws.iter_rows(min_row=2, values_only=True))
-        data_rows_sorted = sorted(data_rows, key=lambda x: x[col_idx - 1] if x[col_idx - 1] else 0, reverse=True)
-        for i, row in enumerate(data_rows_sorted, start=2):
-            for j, value in enumerate(row, start=1):
-                ws.cell(row=i, column=j, value=value)
-
     # Ajuste automático ancho columnas según encabezado
     for col_cells in ws.iter_cols(min_row=1, max_row=1):
         max_length = 0
